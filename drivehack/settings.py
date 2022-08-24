@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'mapbox_location_field',
+    # 'mapbox_location_field',
+    'rest_framework',
 
     'maps.apps.MapsConfig'
 ]
