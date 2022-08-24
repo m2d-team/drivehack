@@ -38,10 +38,11 @@ function updateArea(e) {
     const data = draw.getAll();
     const answer = document.getElementById('calculated-area');
     if (data.features.length > 0) {
-        const area = turf.area(data);
+        let polygon_count = getAllCoordinates().length;
+        // const area = turf.area(data);
 // Restrict the area to 2 decimal points.
-        const rounded_area = Math.round(area * 100) / 100;
-        answer.innerHTML = `<p>У вас ${polygon_count} здания общей площадью ${rounded_area}</p>`;
+//         const rounded_area = Math.rou//nd(area * 100) / 100;
+        answer.innerHTML = `<p>У вас ${polygon_count} здания общей площадью area</p>`;
     } else {
         answer.innerHTML = '';
         if (e.type !== 'draw.delete')
