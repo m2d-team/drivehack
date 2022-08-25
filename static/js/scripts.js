@@ -88,16 +88,48 @@ function getAllCoordinates() {
     return polygons
 }
 
+let calc_button = document.getElementById('calc-button');
+
+function receivingDataFromAPI(){
+    console.log('API response received...');
+    
+    const loader = document.getElementById('spinner-loader');
+    const answer = document.getElementById('calculated-area');
+
+    loader.classList.add('hidden');
+    let polygon_count = getAllCoordinates().length;
+    answer.innerHTML = `<p>У вас ${polygon_count} здания</p><br><p>А ещё в этот момент должна происходить перерисовка нагрузок</p>`;
+
+}
+
+calc_button.addEventListener('click', (e) => {
+    const loader = document.getElementById('spinner-loader');
+    
+    console.log('API request sent...');
+    // тут у нас будет ебейший запрос к api
+    
+    // ждём пока не придёт запрос
+    loader.classList.remove('hidden');
+    
+    setTimeout(() => {
+        // тут мы типа получили данные от api
+        receivingDataFromAPI();
+    }, 2 * 1000);
+
+})
+
 function updateArea(e) {
     const data = draw.getAll();
-    const answer = document.getElementById('calculated-area');
+
     if (data.features.length > 0) {
-        let polygon_count = getAllCoordinates().length;
-        answer.innerHTML = `<p>У вас ${polygon_count} здания общей площадью area</p>`;
+        calc_button.classList.remove('disabled');
     } else {
-        answer.innerHTML = '';
-        if (e.type !== 'draw.delete')
+        // answer.innerHTML = '';
+        calc_button.classList.add('disabled');
+        if (e.type !== 'draw.delete'){
             alert('Click the map to draw a polygon.');
+        };
+
     }
 }
 
