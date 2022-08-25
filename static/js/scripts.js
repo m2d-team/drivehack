@@ -310,7 +310,7 @@ function sendData(data) {
     };
 
     let body = JSON.stringify(Object.assign({}, params_data, coordinates));
-
+    
     clearFields();
 
     xhr.send(body);
