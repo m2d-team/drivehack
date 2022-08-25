@@ -295,7 +295,7 @@ function sendData(data){
     };
     
     let body = JSON.stringify(Object.assign({}, params_data, coordinates));
-    
+    // console.log(body);
     clearFields();
 
     xhr.send(body);
