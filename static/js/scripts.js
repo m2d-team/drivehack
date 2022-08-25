@@ -1,7 +1,10 @@
+// TODO:
+// prevent default для форм
+
 mapboxgl.accessToken = 'pk.eyJ1IjoidmVyeWJpZ3NhZCIsImEiOiJjbDc4MTUzcmEwNWV1NDFveDB2a3l3eGxzIn0.-En_lmcLWHl0K-udYl5gwQ';
 
 
-const API_URL = 'localhost:8000/api/v1';
+const API_URL = '/api/v1/';
 
 // создание карты + рисовалки на карте
 
@@ -166,16 +169,28 @@ const addMarker = (long, lat, data) => {
 let calc_button = document.getElementById('calc-button');
 
 let necessary_forms = [
+    'category-form',
+    'floors-form',
+    'square-form'
+];
+
+let forms = [
     document.getElementById('category-form'),
     document.getElementById('floors-form'),
-    document.getElementById('square-form')
+    document.getElementById('square-form'),
+    document.getElementById('d-people'),
+    document.getElementById('d-workers'),
 ];
+
 let params_data = {
     'category-form': null,
     'floors-form': null,
-    'square-form': null
+    'square-form': null,
+    'd-people': null,
+    'd-workers': null,
 };
-necessary_forms.forEach(el => {
+
+forms.forEach(el => {
     el.addEventListener('change', (e) => setFormParam(e));
 });
 
@@ -193,9 +208,9 @@ function setFormParam(e){
 function checkFilledParams(){
     for(const [key, value] of Object.entries(params_data)){
 
-        if(value === null){
+        if(necessary_forms.includes(key) && value === null){
             calc_button.classList.add('disabled');
-            console.log('Not enough params');
+            console.log('Not enough necessary params');
             return;
         }
     }
@@ -212,16 +227,49 @@ function checkFilledParams(){
     calc_button.classList.remove('disabled');
 }
 
+function getCoords(){
+    let constructions = draw.getAll().features;
+    let data = [];
+
+    constructions.forEach((el) => {
+        let coords = el['geometry']['coordinates'][0];
+        data.push(coords);
+    })
+    
+    return data;
+}
+
+function sendData(data){
+    let xhr = new XMLHttpRequest();  
+
+    let url = `${API_URL}calculate`;
+    xhr.open('POST', url);
+    xhr.responseType = 'json';
+
+    let coordinates = {
+        'coordinates': getCoords()
+    };
+    
+    let body = JSON.stringify(Object.assign({}, params_data, coordinates));
+    // console.log(body);
+
+    xhr.send(body);
+
+    xhr.onload = () => {
+        console.log(xhr.response);
+    }
+}
+
 function receivingDataFromAPI(){
     console.log('API response received...');
     
     const loader = document.getElementById('spinner-loader');
     const answer = document.getElementById('calculated-area');
+    let polygons = getAllCoordinates();
+
 
     loader.classList.add('hidden');
-    let polygon_count = getAllCoordinates().length;
-    answer.innerHTML = `<p>У вас ${polygon_count} здания</p><br><p>А ещё в этот момент должна происходить перерисовка нагрузок</p>`;
-
+    // answer.innerHTML = `<p>У вас ${polygons.length} здания</p><br><p>А ещё в этот момент должна происходить перерисовка нагрузок</p>`;
 }
 
 calc_button.addEventListener('click', (e) => {
@@ -229,14 +277,14 @@ calc_button.addEventListener('click', (e) => {
     
     console.log('API request sent...');
     // тут у нас будет ебейший запрос к api
-    
+    sendData(params_data);
     // ждём пока не придёт запрос
     loader.classList.remove('hidden');
     
-    setTimeout(() => {
-        // тут мы типа получили данные от api
-        receivingDataFromAPI();
-    }, 2 * 1000);
+    // setTimeout(() => {
+    //     // тут мы типа получили данные от api
+    //     receivingDataFromAPI();
+    // }, 2 * 1000);
 
 })
 
