@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8"/>
+      <!--<link rel="stylesheet" href="assets/css/style.css"/>-->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <title>Харош</title>
+      <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+      <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+  </head>
+  <body>
+      <div class="flex justify-end">
+          <div hidden="true" class="mt-10 mb-20 mr-16 border-4 bg-neutral-600 border-black w-1/4 h-screen overflow-auto rounded-lg">
+              <div class="m-8">
+                  
+                  <div class="text-2xl font-medium mt-10 text-center text-white">Основные параметры</div>
+                  
+                  <div class="mt-5">
+                      <div class="text-lg mt-5 text-white">Категория здания:</div>
+                      <form id="category" class="" method="post">
+                          <select class="border-2  rounded-lg">
+                          <option enabled\></option>
+                          <option value="Жилое помещение text-white">Жилое помещение</option>
+                          <option value="Офис text-white">Офис</option>
+                          <option value="Ресторан text-white">Ресторан</option>
+                          <option value="Торговый центр text-white">Торговый центр</option>
+                          </select>
+                      </form>
+                  </div>
+                  
+                  <div class="mt-5">
+                      <div class="text-lg mt-5 text-white">Количество этажей:</div>
+                      <form id="floors" class="" method="post">
+                          <input class="border-2  rounded-lg" type="text" size="17">
+                      </form>
+                  </div>
+                  
+                  <div class="mt-5">
+                      <div class="text-lg mt-5 text-white">Площадь этажа:</div>
+                      <form id="square" class="" method="post">
+                          <input class="border-2  rounded-lg" type="text" size="17">
+                      </form>
+                  </div>
+                  
+                  
+                  
+                  <div>
+                  
+                  <div class="text-2xl mt-10 text-center font-medium text-white">Дополнительные параметры</div>
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div class="mt-5">
+                      <div id="d-people" class="text-lg mt-5 text-white">Количество человек:</div>
+                      <form class="" method="post">
+                          <input class="border-2  rounded-lg" type="text" size="17">
+                      </form>
+                  </div>
+                  
+                  <div class="mt-5">
+                      <div class="text-lg mt-5 text-white">Рабочие (в процентах):</div>
+                      <form id="d-workers" class="" method="post">
+                          <input class="border-2  rounded-lg" type="text" size="17">
+                      </form>
+                  </div>
+                      
+                </div>
+                  
+                  
+                  
+              
+              </div>
+          <!--<button class="mt-10 bg-purple-500 bg-opacity-60 block mx-auto py-2 px-14 rounded-xl hover:bg-opacity-100">Save</button>-->
+          </div>
+      </div>
+      
+      
+      <div class="flex justify-end">
+          <div hidden="true" class="mt-10 mr-16 border-4 bg-neutral-600 border-black w-1/4 h-max overflow-auto rounded-lg">
+              <div class="text-2xl font-medium mt-10 text-center text-white">Текущие объекты</div>
+              
+            <div class="ml-10 mb-10">
+              
+              
+              <div class="mt-5 flex">
+                  <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                      <img class="h-full w-full" src="/assets/images/edit.svg" alt="picture">
+                  </div>
+                  <div class="ml-4 text-xl text-white font-semibold">Жилой дом</div>
+              </div>
+              
+              <div class="mt-5 flex">
+                  <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                      <img class="h-full w-full" src="assets/images/edit.svg">
+                  </div>
+                  <div class="ml-4 text-xl text-white font-semibold">Офис</div>
+              </div>
+              
+              <div class="mt-5 flex">
+                  <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                      <img class="h-full w-full" src="assets/images/edit.svg">
+                  </div>
+                  <div class="ml-4 text-xl text-white font-semibold">Ресторан</div>
+              </div>
+            </div>
+          
+          
+          </div>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+  </body>
+</html>
