@@ -208,13 +208,11 @@ let calc_button = document.getElementById('calc-button');
 
 let necessary_forms = [
     'category-form',
-    'floors-form',
     'square-form'
 ];
 
 let forms = [
     document.getElementById('category-form'),
-    document.getElementById('floors-form'),
     document.getElementById('square-form'),
     document.getElementById('d-people'),
     document.getElementById('d-workers'),
@@ -222,7 +220,6 @@ let forms = [
 
 let params_data = {
     'category-form': null,
-    'floors-form': null,
     'square-form': null,
     'd-people': null,
     'd-workers': null,
@@ -240,7 +237,6 @@ function setFormParam(e){
     
     checkFilledParams();
 }
-
 
 // функция для активации кнопки расчёта(если введены все данные)
 function checkFilledParams(){
@@ -277,6 +273,16 @@ function getCoords(){
     return data;
 }
 
+function clearFields(){
+    forms.forEach((el) => {
+        let key = el.id;
+        el.children[0].value = '';
+
+        params_data[key] = null;
+    });
+    return;
+}
+
 function sendData(data){
     let xhr = new XMLHttpRequest();  
 
@@ -289,35 +295,28 @@ function sendData(data){
     };
     
     let body = JSON.stringify(Object.assign({}, params_data, coordinates));
-    // console.log(body);
+    
+    clearFields();
 
     xhr.send(body);
-
+    
+    const loader = document.getElementById('spinner-loader');
     xhr.onload = () => {
+        loader.classList.add('hidden');
         console.log(xhr.response);
     }
-}
-
-function receivingDataFromAPI(){
-    console.log('API response received...');
-
-    const loader = document.getElementById('spinner-loader');
-    const answer = document.getElementById('calculated-area');
-    let polygons = getAllCoordinates();
-
-
-    loader.classList.add('hidden');
-    // answer.innerHTML = `<p>У вас ${polygons.length} здания</p><br><p>А ещё в этот момент должна происходить перерисовка нагрузок</p>`;
 }
 
 calc_button.addEventListener('click', (e) => {
     const loader = document.getElementById('spinner-loader');
     
     console.log('API request sent...');
-    // тут у нас будет ебейший запрос к api
-    sendData(params_data);
-    // ждём пока не придёт запрос
+    // ждём пока обрабатывается запрос
     loader.classList.remove('hidden');
+    
+    // тут у нас ебейший запрос к api
+    sendData(params_data);
+
     
     // setTimeout(() => {
     //     // тут мы типа получили данные от api

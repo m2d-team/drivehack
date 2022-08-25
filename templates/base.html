@@ -34,7 +34,7 @@
 
                         <div class="mt-5">
                             <div class="text-lg mt-5">Категория здания:</div>
-                            <form id="category" class="" method="post">
+                            <form id="category-form" class="" method="post">
                                 <select class="border-2  rounded-lg">
                                     <option enabled\></option>
                                     <option value="Жилое помещение">Жилое помещение</option>
@@ -47,7 +47,7 @@
 
                         <div class="mt-5">
                             <div class="text-lg mt-5 ">Площадь здания:</div>
-                            <form id="floors" class="" method="post">
+                            <form id="square-form" class="" method="post">
                                 <input class="border-2  rounded-lg" type="text" size="17">
                             </form>
                         </div>
@@ -64,7 +64,7 @@
 
 
                             <div class="mt-5">
-                                <div class="text-lg mt-5 text-white">Количество человек:</div>
+                                <div class="text-lg mt-5">Количество человек:</div>
                                 <form id="d-people" class="" method="post">
                                     <input class="border-2  rounded-lg" type="text" size="17">
                                 </form>
@@ -80,14 +80,14 @@
                         </div>
 
                         <div class="w-full mx-16">
-                            <button id="calc-button" class="bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100">
-                                <div class=" text-xl my-2 mx-8 text-center font-medium font-bold">Рассчитать</div>
+                            <button id="calc-button" class="disabled bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100">
+                                <div class="text-xl my-2 mx-8 text-center font-medium font-bold">Рассчитать</div>
                             </button>
                         </div>
 
-
-
-
+                        <div class="mt-5 grid place-items-center">
+                            <div id="spinner-loader"class="hidden three-quarters-loader"></div>
+                        </div>
                     </div>
                 </div>
 

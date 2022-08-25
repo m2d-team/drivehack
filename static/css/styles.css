@@ -69,7 +69,7 @@ body {
 -moz-animation: three-quarters-loader 1250ms infinite linear;
 -webkit-animation: three-quarters-loader 1250ms infinite linear;
 animation: three-quarters-loader 1250ms infinite linear;
-border: 8px solid #38e;
+border: 8px solid #89d4fa;
 border-right-color: transparent;
 border-radius: 16px;
 box-sizing: border-box;
