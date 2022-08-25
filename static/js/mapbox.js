@@ -97,6 +97,8 @@ const addMarker = (long, lat, data) => {
                     </div>
                 `);
     // Add markers to the map.
+    // делаем 2 маркера на long lat - один черный на фоне как максимум другой зелено-красный который показывает насколько пизда этому метро
+
     let marker = new mapboxgl.Marker(el)
         .setLngLat([long, lat])
         .setPopup(popup)
@@ -194,29 +196,58 @@ map.on('draw.create', addArea);
 map.on('draw.delete', deleteArea);
 
 
-function addArea(e) {
+for (let i = 0; i < 5; i++) {
+    document.getElementById('build' + String(i + 1)).addEventListener('click', (e) => {
+        if (e.target.disabled !== false) {
+            return
+        }
+
+        // убираем остальные синие кнопки
+        for (let j = 0; j < 5; j++) {
+            document.getElementById('build' + String(j + 1)).classList.remove('bg-blue-500')
+        }
+
+        // ставим данные из нужной формы
+        console.log(e.target.id)
+        setFormData(params_data[Number(e.target.id.split('build')[1]) - 1])
+        document.getElementById('current-build').value = Number(e.target.id.split('build')[1]) - 1
+        e.target.classList.add('bg-blue-500')
+    })
+}
+
+
+function addArea(ev) {
+    console.log(popup)
+    map.on('click', ev.features[0].id, (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const description = 'Здание номер ' + String(area_counter);
+
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        popup.setLngLat(coordinates).setHTML(description).addTo(map);
+    })
+    map.on('mouseleave', ev.features[0].id, () => {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+    });
+
     // новый рисунок сделался, люблюино работем (добавляем на панельку)
-    console.log(e)
-
+    if (area_counter <= 4) {
+        document.getElementById('build' + String(area_counter + 1)).disabled = undefined
+    }
     area_counter += 1;
-
-
-    // const data = draw.getAll();
-    // const answer = document.getElementById('calculated-area');
-    // if (data.features.length > 0) {
-    //     const area = turf.area(data);
-    //     Restrict the area to 2 decimal points.
-        // const rounded_area = Math.round(area * 100) / 100;
-        // answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
-    // } else {
-    //     answer.innerHTML = '';
-    //     if (e.type !== 'draw.delete')
-    //         alert('Click the map to draw a polygon.');
-    // }
 }
 
 function deleteArea(e) {
     console.log(e)
+    if (area_counter >= 1) {
+        document.getElementById('build' + String(area_counter + 1)).disabled = true
+    }
+    area_counter -= 1
 }
 
 function debugHelper() {
