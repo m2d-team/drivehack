@@ -8,7 +8,7 @@ class TransportLocationAdmin(admin.ModelAdmin):
     fieldsets = ((None, {
         'fields': ('station_name', 'transport_line_id', 'transport_location_type',
                    'morning_thousands_avg_people_per_hour', 'evening_thousands_avg_people_per_hour',
-                   'max_thousands_people_per_hour')
+                   'max_thousands_people_per_hour', 'longitude', 'latitude')
     }),)
     list_display = ('station_name', 'transport_line_id', 'transport_location_type',
                     'morning_thousands_avg_people_per_hour', 'evening_thousands_avg_people_per_hour',
