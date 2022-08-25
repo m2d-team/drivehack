@@ -37,8 +37,10 @@ class TransportLocation(LocationMixin):
 
 class Road(models.Model):
     # дорога
-    auto_per_hour = models.IntegerField(default=0)
-    load_percent = models.IntegerField(default=0)
+    east_to_west_auto_per_hour = models.IntegerField(default=0)
+    east_to_west_load_percent = models.IntegerField(default=0)
+    west_to_east_auto_per_hour = models.IntegerField(default=0)
+    west_to_east_load_percent = models.IntegerField(default=0)
 
 
 class MeaningPoint(LocationMixin):

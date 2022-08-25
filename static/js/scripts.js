@@ -72,18 +72,32 @@ map.on('load', () => {
                 for (let j = 0; j < data[i].drawing_points.length; j++) {
                     points.push([data[i].drawing_points[j].longitude, data[i].drawing_points[j].latitude])
                 }
-                drawRoad(points, 'road_' + String(i))
+                drawRoad(points, 'road_' + String(i), data[i])
             }
         })
     })
 });
 
-function drawRoad(points, road_id) {
+
+// Create a popup, but don't add it to the map yet.
+const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+
+function drawRoad(points, road_id, road_data) {
+    let road_desc = `<h2>В час пик на этой дороге:</h2>
+                    <h4>С востока на запад:</h4>
+                    <p>${road_data.east_to_west_auto_per_hour} машин в час, она загружена на ${road_data.east_to_west_load_percent}%</p>
+                    <h4>С запада на восток:</h4>
+                    <p>${road_data.west_to_east_auto_per_hour} машин в час, она загружена на ${road_data.west_to_east_load_percent}%</p>`
     map.addSource(road_id, {
         'type': 'geojson',
         'data': {
             'type': 'Feature',
-            'properties': {},
+            'properties': {
+                'description': road_desc
+            },
             'geometry': {
                 'type': 'LineString',
                 'coordinates': points
@@ -103,6 +117,30 @@ function drawRoad(points, road_id) {
             'line-color': '#000000',
             'line-width': 6
         }
+    });
+        map.on('mouseenter', road_id, (e) => {
+// Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+
+// Copy coordinates array.
+        const coordinates = e.lngLat;
+        const description = e.features[0].properties.description;
+
+// Ensure that if the map is zoomed out such that multiple
+// copies of the feature are visible, the popup appears
+// over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+// Populate the popup and set its coordinates
+// based on the feature found.
+        popup.setLngLat(coordinates).setHTML(description).addTo(map);
+    });
+
+    map.on('mouseleave', road_id, () => {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
     });
 }
 
@@ -165,10 +203,10 @@ const addMarker = (long, lat, data) => {
 
 // let calc_button = document.getElementById('calc-button');
 
-function getDataFromFrom(){
+function getDataFromFrom() {
     let category = document.getElementById('category');
 
-    if(data.features.length == 0){
+    if (data.features.length === 0) {
         console.log('Zone not specified');
         calc_button.classList.add('disabled');
         return;
@@ -177,9 +215,9 @@ function getDataFromFrom(){
     calc_button.classList.remove('disabled');
 }
 
-function receivingDataFromAPI(){
+function receivingDataFromAPI() {
     console.log('API response received...');
-    
+
     const loader = document.getElementById('spinner-loader');
     const answer = document.getElementById('calculated-area');
 
@@ -189,21 +227,21 @@ function receivingDataFromAPI(){
 
 }
 
-calc_button.addEventListener('click', (e) => {
-    const loader = document.getElementById('spinner-loader');
-    
-    console.log('API request sent...');
-    // тут у нас будет ебейший запрос к api
-    
-    // ждём пока не придёт запрос
-    loader.classList.remove('hidden');
-    
-    setTimeout(() => {
-        // тут мы типа получили данные от api
-        receivingDataFromAPI();
-    }, 2 * 1000);
-
-})
+// calc_button.addEventListener('click', (e) => {
+//     const loader = document.getElementById('spinner-loader');
+//
+//     console.log('API request sent...');
+//     // тут у нас будет ебейший запрос к api
+//
+//     // ждём пока не придёт запрос
+//     loader.classList.remove('hidden');
+//
+//     setTimeout(() => {
+//         // тут мы типа получили данные от api
+//         receivingDataFromAPI();
+//     }, 2 * 1000);
+//
+// })
 
 function updateArea(e) {
     checkFilledParams();
