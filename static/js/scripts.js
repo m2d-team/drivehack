@@ -1,13 +1,15 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidmVyeWJpZ3NhZCIsImEiOiJjbDc4MTUzcmEwNWV1NDFveDB2a3l3eGxzIn0.-En_lmcLWHl0K-udYl5gwQ';
 
 
+const API_URL = 'localhost:8000/api/v1';
+
 // создание карты + рисовалки на карте
 
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
     center: [37.56809243178864, 55.773323644594456], // starting position [lng, lat]
-    zoom: 0, // starting zoom
+    zoom: 15, // starting zoom
     pitchWithRotate: false
 });
 map.dragRotate.disable()
@@ -201,12 +203,18 @@ const addMarker = (long, lat, data) => {
 function getDataFromFrom() {
     let category = document.getElementById('category');
 
-    console.log(category.value);
+    if(data.features.length == 0){
+        console.log('Zone not specified');
+        calc_button.classList.add('disabled');
+        return;
+    }
+
+    calc_button.classList.remove('disabled');
 }
 
-function receivingDataFromAPI() {
+function receivingDataFromAPI(){
     console.log('API response received...');
-
+    
     const loader = document.getElementById('spinner-loader');
     const answer = document.getElementById('calculated-area');
 
@@ -216,36 +224,35 @@ function receivingDataFromAPI() {
 
 }
 
-// calc_button.addEventListener('click', (e) => {
-//     const loader = document.getElementById('spinner-loader');
+calc_button.addEventListener('click', (e) => {
+    const loader = document.getElementById('spinner-loader');
+    
+    console.log('API request sent...');
+    // тут у нас будет ебейший запрос к api
+    
+    // ждём пока не придёт запрос
+    loader.classList.remove('hidden');
+    
+    setTimeout(() => {
+        // тут мы типа получили данные от api
+        receivingDataFromAPI();
+    }, 2 * 1000);
 
-//     console.log('API request sent...');
-//     // тут у нас будет ебейший запрос к api
-
-//     // ждём пока не придёт запрос
-//     loader.classList.remove('hidden');
-
-//     setTimeout(() => {
-//         // тут мы типа получили данные от api
-//         receivingDataFromAPI();
-//     }, 2 * 1000);
-
-// })
+})
 
 function updateArea(e) {
-    const data = draw.getAll();
+    checkFilledParams();
+    // const data = draw.getAll();
 
-    if (data.features.length > 0) {
-        // calc_button.classList.remove('disabled');
-    } else {
-        // answer.innerHTML = '';
-        // calc_button.classList.add('disabled');
-        if (e.type !== 'draw.delete') {
-            alert('Click the map to draw a polygon.');
-        }
-        ;
+    // if (data.features.length > 0) {
+    // } else {
+    //     answer.innerHTML = '';
+    //     calc_button.classList.add('disabled');
+    //     if (e.type !== 'draw.delete'){
+    //         alert('Click the map to draw a polygon.');
+    //     };
 
-    }
+    // }
 }
 
 

@@ -16,45 +16,52 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
+<<<<<<< HEAD
 <body >
 
-    <div class="container large flex">
-        <div class="z-0">
+    <div class="flex">
+        <div class="z-0 flex">
             <div class="map" id="map"></div>
         </div>
+=======
+<div class="flex">
+    <div class="z-0">
+        <div class="map" id="map"></div>
+    </div>
+>>>>>>> 1976da11ae022f6c4410cde9b54ffaaeb894376d
 
         <div class="z-10">
             <!-- obj creating form-->
-            <div class=" flex justify-start">
-                <div class=" bg-neutral-600 h-min">
-                    <div class="m-8">
+            <div class=" flex justify-start mt-20">
+                <div class=" bg-neutral-600 rounded-r-lg">
+                    <div class="m-8 font-mono">
 
-                        <div class="text-2xl font-medium mt-10 text-center text-white">Основные параметры</div>
+                        <div class="font-semibold text-2xl font-bold mt-10 text-center text-white">Основные параметры</div>
 
                         <div class="mt-5">
                             <div class="text-lg mt-5 text-white">Категория здания:</div>
-                            <form id="category" class="" method="post">
+                            <form id="category-form" class="" method="post">
                                 <select class="border-2  rounded-lg">
                                     <option enabled\></option>
-                                    <option value="Жилое помещение text-white">Жилое помещение</option>
-                                    <option value="Офис text-white">Офис</option>
-                                    <option value="Ресторан text-white">Ресторан</option>
-                                    <option value="Торговый центр text-white">Торговый центр</option>
+                                    <option value="Жилое помещение">Жилое помещение</option>
+                                    <option value="Офис">Офис</option>
+                                    <option value="Ресторан">Ресторан</option>
+                                    <option value="Торговый центр">Торговый центр</option>
                                 </select>
                             </form>
                         </div>
 
                         <div class="mt-5">
                             <div class="text-lg mt-5 text-white">Количество этажей:</div>
-                            <form id="floors" class="" method="post">
-                                <input class="border-2  rounded-lg" type="text" size="17">
+                            <form id="floors-form" class="" method="post">
+                                <input class="border-2  rounded-lg" type="number" size="17">
                             </form>
                         </div>
 
                         <div class="mt-5">
                             <div class="text-lg mt-5 text-white">Площадь этажа:</div>
-                            <form id="square" class="" method="post">
-                                <input class="border-2  rounded-lg" type="text" size="17">
+                            <form id="square-form" class="" method="post">
+                                <input class="border-2  rounded-lg" type="number" size="17">
                             </form>
                         </div>
 
@@ -62,7 +69,7 @@
 
                         <div>
 
-                            <div class="text-2xl mt-10 text-center font-medium text-white">Дополнительные параметры
+                            <div class="text-2xl mt-10 text-center font-bold text-white">Дополнительные параметры
                             </div>
 
 
@@ -86,9 +93,10 @@
 
                         </div>
 
-                        <div class="w-full mx-20">
-                            <button id="calc-button" class="mt-10 bg-yellow-500 rounded-full">
-                                <div class="text-xl my-2 mx-8 text-center font-medium text-white">Рассчитать</div>
+<<<<<<< HEAD
+                        <div class="w-full mx-16">
+                            <button id="calc-button" class="bg-opacity-100 mt-10 bg-sky-600 rounded-full hover:bg-opacity-80">
+                                <div class=" text-xl my-2 mx-8 text-center font-medium text-white">Рассчитать</div>
                             </button>
                         </div>
 
@@ -102,16 +110,16 @@
 
 
 
-            <div class="flex justify-start mt-10">
-                <div class=" bg-neutral-600 h-min w-full">
-                    <div class="m-8">
+            <!-- <div class="flex justify-start">
+                <div class=" bg-neutral-600 w-full">
+                    <div class="m-4">
                         <div class="text-2xl font-medium mt-10 text-center text-white">Текущие объекты</div>
                 
                     
                     
                     <div class="mt-5 flex">
                         <div class="ml-4 text-xl text-white font-semibold">Жилой дом</div>
-                        <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                        <div class="ml-4 w-6 bg-white rounded-lg">
                             <button class="h-full w-full" src="/../drivehack/assets/images/edit.svg" alt="picture">
                         </div>
                         
@@ -119,7 +127,7 @@
                     
                     <div class="mt-5 flex">
                         <div class="ml-4 text-xl text-white font-semibold">Офис</div>
-                        <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                        <div class="ml-4  w-6 bg-white rounded-lg">
                             <button class="h-full w-full">
                                 <img src="/assets/images/edit.png">
                             </button>
@@ -129,7 +137,7 @@
                     
                     <div class="mt-5 flex">
                         <div class="ml-4 text-xl text-white font-semibold">Ресторан</div>
-                        <div class="ml-4 h-6 w-6 bg-white rounded-lg">
+                        <div class="ml-4 w-6 bg-white rounded-lg">
                             <button class="h-full w-full" src="/../drivehack/assets/images/edit.svg">
                         </div>
                         
@@ -150,14 +158,29 @@
                 
                 </div >
         
+              </div> -->
+
+
+
+
+
+
+=======
+              <div id="spinner-loader" class="hidden three-quarters-loader"></div>
+              <div>
+                <button id="calc-button" class="mt-10 bg-yellow-500 rounded-full items-stretch disabled">
+                    <div class="text-xl my-2 mx-8 text-center font-medium text-white">Рассчитать</div>
+                  </button>
               </div>
-
-
-
-
-
-
+                
+                
+                
+            
+            </div>
+        <!-- <button id="calc-button" class="mt-10 bg-purple-500 bg-opacity-60 block mx-auto py-2 px-14 rounded-xl hover:bg-opacity-100">Save</button> -->
+>>>>>>> 1976da11ae022f6c4410cde9b54ffaaeb894376d
         </div>
+    </div>
 
 
         <script src="{% static 'js/scripts.js' %}"></script>
