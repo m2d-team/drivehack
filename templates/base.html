@@ -12,148 +12,85 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css"
-        type="text/css">
+          type="text/css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<body >
-    <div class="flex">
-        <div class="z-0 flex">
-            <div class="map" id="map"></div>
-        </div>
+<body>
+<div class="flex">
+    <div class="z-0 flex">
+        <div class="map" id="map"></div>
+    </div>
 
 
-        <div class="z-10">
-            <!-- obj creating form-->
-            <div class="flex mt-10">
-                <div class=" bg-white shadow-2xl">
-                    <div class="m-8 font-mono">
+    <div class="z-10">
+        <!-- obj creating form-->
+        <div class="flex mt-10">
+            <div class=" bg-white shadow-2xl">
+                <div class="m-8 font-mono">
 
-                        <div class="font-semibold text-2xl font-bold mt-10 text-center ">Основные параметры</div>
+                    <div class="font-semibold text-2xl font-bold mt-10 text-center ">Основные параметры</div>
 
-                        <div class="mt-5">
-                            <div class="text-lg mt-5">Категория здания:</div>
-                            <form id="category-form" class="" method="post">
-                                <select class="border-2  rounded-lg">
-                                    <option enabled\></option>
-                                    <option value="Жилое помещение">Жилое помещение</option>
-                                    <option value="Офис">Офис</option>
-                                    <option value="Ресторан">Ресторан</option>
-                                    <option value="Торговый центр ">Торговый центр</option>
-                                </select>
-                            </form>
-                        </div>
-
-                        <div class="mt-5">
-                            <div class="text-lg mt-5 ">Площадь здания:</div>
-                            <form id="square-form" class="" method="post">
-                                <input class="border-2  rounded-lg" type="text" size="17">
-                            </form>
-                        </div>
-
-
-                        <div>
-
-                            <div class="text-2xl mt-10 text-center font-bold ">Дополнительные параметры
-                            </div>
-
-
-
-
-
-
-                            <div class="mt-5">
-                                <div class="text-lg mt-5">Количество человек:</div>
-                                <form id="d-people" class="" method="post">
-                                    <input class="border-2  rounded-lg" type="text" size="17">
-                                </form>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="text-lg mt-5 ">Рабочие (в процентах):</div>
-                                <form id="d-workers" class="" method="post">
-                                    <input class="border-2  rounded-lg" type="text" size="17">
-                                </form>
-                            </div>
-
-                        </div>
-
-                        <div class="w-full mx-16">
-                            <button id="calc-button" class="disabled bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100">
-                                <div class="text-xl my-2 mx-8 text-center font-medium font-bold">Рассчитать</div>
-                            </button>
-                        </div>
-
-                        <div class="mt-5 grid place-items-center">
-                            <div id="spinner-loader"class="hidden three-quarters-loader"></div>
-                        </div>
+                    <div class="mt-5">
+                        <div class="text-lg mt-5">Категория здания:</div>
+                        <form id="category-form" class="" method="post">
+                            <select class="border-2  rounded-lg">
+                                <option enabled\></option>
+                                <option value="Жилое помещение">Жилое помещение</option>
+                                <option value="Офис">Офис</option>
+                                <option value="Ресторан">Ресторан</option>
+                                <option value="Торговый центр ">Торговый центр</option>
+                            </select>
+                        </form>
                     </div>
+
+                    <div class="mt-5">
+                        <div class="text-lg mt-5 ">Площадь здания:</div>
+                        <form id="square-form" class="" method="post">
+                            <input class="border-2  rounded-lg" type="text" size="17">
+                        </form>
+                    </div>
+
+
+                    <p class="text-2xl mt-10 text-center font-bold ">Дополнительные параметры</p>
+
+
+                    <div class="mt-5">
+                        <div class="text-lg mt-5">Количество человек:</div>
+                        <form id="d-people" class="" method="post">
+                            <input class="border-2  rounded-lg" type="text" size="17">
+                        </form>
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="text-lg mt-5 ">Рабочие (в процентах):</div>
+                        <form id="d-workers" class="" method="post">
+                            <input class="border-2  rounded-lg" type="text" size="17">
+                        </form>
+                    </div>
+
                 </div>
 
+                <div class="w-full mx-16">
+                    <button id="calc-button"
+                            class="disabled bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100">
+                        <div class="text-xl my-2 mx-8 text-center font-medium font-bold">Рассчитать</div>
+                    </button>
+                </div>
+
+                <div class="mt-5 grid place-items-center">
+                    <div id="spinner-loader" class="hidden three-quarters-loader"></div>
+                </div>
             </div>
-
-
-
-            <!-- <div class="flex justify-start">
-                <div class=" bg-neutral-600 w-full">
-                    <div class="m-4">
-                        <div class="text-2xl font-medium mt-10 text-center text-white">Текущие объекты</div>
-                
-                    
-                    
-                    <div class="mt-5 flex">
-                        <div class="ml-4 text-xl text-white font-semibold">Жилой дом</div>
-                        <div class="ml-4 w-6 bg-white rounded-lg">
-                            <button class="h-full w-full" src="/../drivehack/assets/images/edit.svg" alt="picture">
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="mt-5 flex">
-                        <div class="ml-4 text-xl text-white font-semibold">Офис</div>
-                        <div class="ml-4  w-6 bg-white rounded-lg">
-                            <button class="h-full w-full">
-                                <img src="/assets/images/edit.png">
-                            </button>
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="mt-5 flex">
-                        <div class="ml-4 text-xl text-white font-semibold">Ресторан</div>
-                        <div class="ml-4 w-6 bg-white rounded-lg">
-                            <button class="h-full w-full" src="/../drivehack/assets/images/edit.svg">
-                        </div>
-                        
-
-
-
-                    </div>
-
-                        
-
-
-
-
-
-                    </div>
-            
-                
-                
-                </div >
-        
-              </div> -->
-
-
-
-
-
-
         </div>
+    </div>
+</div>
 
 
-        <script src="{% static 'js/scripts.js' %}"></script>
-        <script type="module" src="{% static 'js/animations.js' %}"></script>
+<script src="{% static 'js/mapbox.js' %}"></script>
+<script src="{% static 'js/api.js' %}"></script>
+<script src="{% static 'js/forms.js' %}"></script>
+<script type="module" src="{% static 'js/animations.js' %}"></script>
 </body>
 
 </html>
