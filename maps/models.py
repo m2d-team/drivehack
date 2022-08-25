@@ -33,3 +33,20 @@ class TransportLocation(LocationMixin):
     class Meta:
         verbose_name = 'Место транспортной остановки'
         verbose_name_plural = 'Места транспортных остановок'
+
+
+class Road(models.Model):
+    # дорога
+    auto_per_hour = models.IntegerField(default=0)
+    load_percent = models.IntegerField(default=0)
+
+
+class MeaningPoint(LocationMixin):
+    # граф для развилок в дорогах
+    roads_connected = models.ManyToManyField(Road)
+
+
+class DrawingPoint(LocationMixin):
+    # одна из точек для отрисовки дорог
+    road = models.ForeignKey(Road, on_delete=models.CASCADE)
+

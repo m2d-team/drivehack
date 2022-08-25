@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TransportLocation
+from .models import TransportLocation, Road, DrawingPoint, MeaningPoint
 
 
 class TransportLocationAdmin(admin.ModelAdmin):
@@ -19,3 +19,8 @@ class TransportLocationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(TransportLocation, TransportLocationAdmin)
+
+admin.site.register(Road)
+admin.site.register(MeaningPoint)
+admin.site.register(DrawingPoint)
+
