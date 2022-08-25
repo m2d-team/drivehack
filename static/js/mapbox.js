@@ -189,3 +189,38 @@ function getCoords() {
 }
 
 
+let area_counter = 0;
+map.on('draw.create', addArea);
+map.on('draw.delete', deleteArea);
+
+
+function addArea(e) {
+    // новый рисунок сделался, люблюино работем (добавляем на панельку)
+    console.log(e)
+
+    area_counter += 1;
+
+
+    // const data = draw.getAll();
+    // const answer = document.getElementById('calculated-area');
+    // if (data.features.length > 0) {
+    //     const area = turf.area(data);
+    //     Restrict the area to 2 decimal points.
+        // const rounded_area = Math.round(area * 100) / 100;
+        // answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
+    // } else {
+    //     answer.innerHTML = '';
+    //     if (e.type !== 'draw.delete')
+    //         alert('Click the map to draw a polygon.');
+    // }
+}
+
+function deleteArea(e) {
+    console.log(e)
+}
+
+function debugHelper() {
+    map.on('click', (e) => {
+        alert(e.lngLat.wrap())
+    });
+}
