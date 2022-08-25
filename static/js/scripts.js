@@ -163,45 +163,10 @@ const addMarker = (long, lat, data) => {
 }
 
 
-let calc_button = document.getElementById('calc-button');
+// let calc_button = document.getElementById('calc-button');
 
-let necessary_forms = [
-    document.getElementById('category-form'),
-    document.getElementById('floors-form'),
-    document.getElementById('square-form')
-];
-let params_data = {
-    'category-form': null,
-    'floors-form': null,
-    'square-form': null
-};
-necessary_forms.forEach(el => {
-    el.addEventListener('change', (e) => setFormParam(e));
-});
-
-function setFormParam(e){
-    let param_name = e.target.parentElement.id;
-    let param_value = e.target.value;
-
-    params_data[param_name] = param_value;
-    
-    checkFilledParams();
-}
-
-
-// функция для активации кнопки расчёта(если введены все данные)
-function checkFilledParams(){
-    for(const [key, value] of Object.entries(params_data)){
-
-        if(value === null){
-            calc_button.classList.add('disabled');
-            console.log('Not enough params');
-            return;
-        }
-    }
-
-    const data = draw.getAll();
-    console.log(data.features.length);
+function getDataFromFrom(){
+    let category = document.getElementById('category');
 
     if(data.features.length == 0){
         console.log('Zone not specified');
