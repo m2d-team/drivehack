@@ -88,7 +88,13 @@ function getAllCoordinates() {
     return polygons
 }
 
-let calc_button = document.getElementById('calc-button');
+// let calc_button = document.getElementById('calc-button');
+
+function getDataFromFrom(){
+    let category = document.getElementById('category');
+
+    console.log(category.value);
+}
 
 function receivingDataFromAPI(){
     console.log('API response received...');
@@ -102,30 +108,30 @@ function receivingDataFromAPI(){
 
 }
 
-calc_button.addEventListener('click', (e) => {
-    const loader = document.getElementById('spinner-loader');
+// calc_button.addEventListener('click', (e) => {
+//     const loader = document.getElementById('spinner-loader');
     
-    console.log('API request sent...');
-    // тут у нас будет ебейший запрос к api
+//     console.log('API request sent...');
+//     // тут у нас будет ебейший запрос к api
     
-    // ждём пока не придёт запрос
-    loader.classList.remove('hidden');
+//     // ждём пока не придёт запрос
+//     loader.classList.remove('hidden');
     
-    setTimeout(() => {
-        // тут мы типа получили данные от api
-        receivingDataFromAPI();
-    }, 2 * 1000);
+//     setTimeout(() => {
+//         // тут мы типа получили данные от api
+//         receivingDataFromAPI();
+//     }, 2 * 1000);
 
-})
+// })
 
 function updateArea(e) {
     const data = draw.getAll();
 
     if (data.features.length > 0) {
-        calc_button.classList.remove('disabled');
+        // calc_button.classList.remove('disabled');
     } else {
         // answer.innerHTML = '';
-        calc_button.classList.add('disabled');
+        // calc_button.classList.add('disabled');
         if (e.type !== 'draw.delete'){
             alert('Click the map to draw a polygon.');
         };
