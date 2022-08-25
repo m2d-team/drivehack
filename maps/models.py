@@ -42,13 +42,15 @@ class Road(models.Model):
     west_to_east_auto_per_hour = models.IntegerField(default=0)
     west_to_east_load_percent = models.IntegerField(default=0)
 
+    def get_first_point(self):
+        return self.drawingpoint_set.all().first()
 
-class MeaningPoint(LocationMixin):
-    # граф для развилок в дорогах
-    roads_connected = models.ManyToManyField(Road)
+    def get_last_point(self):
+        return self.drawingpoint_set.all().last()
 
 
 class DrawingPoint(LocationMixin):
     # одна из точек для отрисовки дорог
-    road = models.ForeignKey(Road, on_delete=models.CASCADE)
+    road = models.ManyToManyField(Road)
+    pass
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from maps.models import TransportLocation, Road, MeaningPoint, DrawingPoint
+from maps.models import TransportLocation, Road, DrawingPoint
 
 
 class TransportLocationSerializer(serializers.ModelSerializer):
@@ -9,10 +9,10 @@ class TransportLocationSerializer(serializers.ModelSerializer):
         exclude = ('id',)
 
 
-class MeaningPointSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MeaningPoint
-        fields = ('longitude', 'latitude', 'id')
+# class MeaningPointSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = MeaningPoint
+#         fields = ('longitude', 'latitude', 'id')
 
 
 class DrawingPointSerializer(serializers.ModelSerializer):
@@ -22,11 +22,10 @@ class DrawingPointSerializer(serializers.ModelSerializer):
 
 
 class RoadSerializer(serializers.ModelSerializer):
-    meaning_points = MeaningPointSerializer(source='meaningpoint_set', many=True)
+    # meaning_points = MeaningPointSerializer(source='meaningpoint_set', many=True)
     drawing_points = DrawingPointSerializer(source='drawingpoint_set', many=True)
 
     class Meta:
         model = Road
         fields = ('id', 'east_to_west_auto_per_hour', 'east_to_west_load_percent',
-                  'west_to_east_auto_per_hour', 'west_to_east_load_percent',
-                  'meaning_points', 'drawing_points')
+                  'west_to_east_auto_per_hour', 'west_to_east_load_percent', 'drawing_points')
