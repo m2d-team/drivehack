@@ -27,5 +27,4 @@ class RoadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Road
-        fields = ('id', 'east_to_west_auto_per_hour', 'east_to_west_load_percent',
-                  'west_to_east_auto_per_hour', 'west_to_east_load_percent', 'drawing_points')
+        fields = ('id', 'drawing_points', 'base_traffic', 'traffic_limit')

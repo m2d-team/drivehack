@@ -37,11 +37,7 @@ class TransportLocation(LocationMixin):
 
 class Road(models.Model):
     # дорога
-    east_to_west_auto_per_hour = models.IntegerField(default=0)
-    east_to_west_load_percent = models.IntegerField(default=0)
-    west_to_east_auto_per_hour = models.IntegerField(default=0)
-    west_to_east_load_percent = models.IntegerField(default=0)
-
+    base_traffic = models.IntegerField(default=50)
     traffic_limit = models.IntegerField(default=300)
 
     def get_first_point(self):
