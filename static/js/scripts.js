@@ -1,6 +1,8 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidmVyeWJpZ3NhZCIsImEiOiJjbDc4MTUzcmEwNWV1NDFveDB2a3l3eGxzIn0.-En_lmcLWHl0K-udYl5gwQ';
 
 
+const API_URL = 'localhost:8000/api/v1';
+
 // создание карты + рисовалки на карте
 
 const map = new mapboxgl.Map({
@@ -88,12 +90,54 @@ function getAllCoordinates() {
     return polygons
 }
 
-// let calc_button = document.getElementById('calc-button');
+let calc_button = document.getElementById('calc-button');
+console.log(calc_button);
 
-function getDataFromFrom(){
-    let category = document.getElementById('category');
+let necessary_forms = [
+    document.getElementById('category-form'),
+    document.getElementById('floors-form'),
+    document.getElementById('square-form')
+];
+let params_data = {
+    'category-form': null,
+    'floors-form': null,
+    'square-form': null
+};
+necessary_forms.forEach(el => {
+    el.addEventListener('change', (e) => setFormParam(e));
+});
 
-    console.log(category.value);
+function setFormParam(e){
+    let param_name = e.target.parentElement.id;
+    let param_value = e.target.value;
+
+    params_data[param_name] = param_value;
+    
+    checkFilledParams();
+}
+
+
+// функция для активации кнопки расчёта(если введены все данные)
+function checkFilledParams(){
+    for(const [key, value] of Object.entries(params_data)){
+
+        if(value === null){
+            calc_button.classList.add('disabled');
+            console.log('Not enough params');
+            return;
+        }
+    }
+
+    const data = draw.getAll();
+    console.log(data.features.length);
+
+    if(data.features.length == 0){
+        console.log('Zone not specified');
+        calc_button.classList.add('disabled');
+        return;
+    }
+
+    calc_button.classList.remove('disabled');
 }
 
 function receivingDataFromAPI(){
@@ -108,35 +152,35 @@ function receivingDataFromAPI(){
 
 }
 
-// calc_button.addEventListener('click', (e) => {
-//     const loader = document.getElementById('spinner-loader');
+calc_button.addEventListener('click', (e) => {
+    const loader = document.getElementById('spinner-loader');
     
-//     console.log('API request sent...');
-//     // тут у нас будет ебейший запрос к api
+    console.log('API request sent...');
+    // тут у нас будет ебейший запрос к api
     
-//     // ждём пока не придёт запрос
-//     loader.classList.remove('hidden');
+    // ждём пока не придёт запрос
+    loader.classList.remove('hidden');
     
-//     setTimeout(() => {
-//         // тут мы типа получили данные от api
-//         receivingDataFromAPI();
-//     }, 2 * 1000);
+    setTimeout(() => {
+        // тут мы типа получили данные от api
+        receivingDataFromAPI();
+    }, 2 * 1000);
 
-// })
+})
 
 function updateArea(e) {
-    const data = draw.getAll();
+    checkFilledParams();
+    // const data = draw.getAll();
 
-    if (data.features.length > 0) {
-        // calc_button.classList.remove('disabled');
-    } else {
-        // answer.innerHTML = '';
-        // calc_button.classList.add('disabled');
-        if (e.type !== 'draw.delete'){
-            alert('Click the map to draw a polygon.');
-        };
+    // if (data.features.length > 0) {
+    // } else {
+    //     answer.innerHTML = '';
+    //     calc_button.classList.add('disabled');
+    //     if (e.type !== 'draw.delete'){
+    //         alert('Click the map to draw a polygon.');
+    //     };
 
-    }
+    // }
 }
 
 

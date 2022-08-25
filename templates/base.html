@@ -29,28 +29,28 @@
                 
                 <div class="mt-5">
                     <div class="text-lg mt-5 text-white">Категория здания:</div>
-                    <form id="category" class="" method="post">
+                    <form id="category-form" class="" method="post">
                         <select class="border-2  rounded-lg">
                         <option enabled\></option>
-                        <option value="Жилое помещение text-white">Жилое помещение</option>
-                        <option value="Офис text-white">Офис</option>
-                        <option value="Ресторан text-white">Ресторан</option>
-                        <option value="Торговый центр text-white">Торговый центр</option>
+                        <option value="Жилое помещение">Жилое помещение</option>
+                        <option value="Офис">Офис</option>
+                        <option value="Ресторан">Ресторан</option>
+                        <option value="Торговый центр">Торговый центр</option>
                         </select>
                     </form>
                 </div>
                 
                 <div class="mt-5">
                     <div class="text-lg mt-5 text-white">Количество этажей:</div>
-                    <form id="floors" class="" method="post">
-                        <input class="border-2  rounded-lg" type="text" size="17">
+                    <form id="floors-form" class="" method="post">
+                        <input class="border-2  rounded-lg" type="number" size="17">
                     </form>
                 </div>
                 
                 <div class="mt-5">
                     <div class="text-lg mt-5 text-white">Площадь этажа:</div>
-                    <form id="square" class="" method="post">
-                        <input class="border-2  rounded-lg" type="text" size="17">
+                    <form id="square-form" class="" method="post">
+                        <input class="border-2  rounded-lg" type="number" size="17">
                     </form>
                 </div>
                 
@@ -81,8 +81,9 @@
                     
               </div>
 
+              <div id="spinner-loader" class="hidden three-quarters-loader"></div>
               <div>
-                <button id="calc-button" class="mt-10 bg-yellow-500 rounded-full items-stretch">
+                <button id="calc-button" class="mt-10 bg-yellow-500 rounded-full items-stretch disabled">
                     <div class="text-xl my-2 mx-8 text-center font-medium text-white">Рассчитать</div>
                   </button>
               </div>
