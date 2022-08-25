@@ -18,17 +18,19 @@ for (let i = 0; i < 5; i++) {
     })
 }
 
-function setFormData(param_data) {
+function saveFormData() {
     let curr_build = Number(document.getElementById('current-build').value)
-    console.log(curr_build)
     params_data[curr_build]['build-type'] = document.getElementById('build-type').children[1].value
-    document.getElementById('build-type').children[1].value = param_data['build-type']
-
     params_data[curr_build]['build-area'] = document.getElementById('build-area').children[1].value
-    document.getElementById('build-area').children[1].value = param_data['build-area']
     params_data[curr_build]['d-people'] = document.getElementById('d-people').children[1].value
-    document.getElementById('d-people').children[1].value = param_data['d-people']
     params_data[curr_build]['d-workers'] = document.getElementById('d-workers').children[1].value
+}
+
+function setFormData(param_data) {
+    saveFormData()
+    document.getElementById('build-type').children[1].value = param_data['build-type']
+    document.getElementById('build-area').children[1].value = param_data['build-area']
+    document.getElementById('d-people').children[1].value = param_data['d-people']
     document.getElementById('d-workers').children[1].value = param_data['d-workers']
 }
 
@@ -76,21 +78,16 @@ function checkFilledParams() {
     calc_button.classList.remove('disabled');
 }
 
-calc_button.addEventListener('click', (e) => {
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const loader = document.getElementById('spinner-loader');
 
-    console.log('API request sent...');
     // ждём пока обрабатывается запрос
     loader.classList.remove('hidden');
 
     // тут у нас ебейший запрос к api
-    sendData(params_data);
-
-
-    // setTimeout(() => {
-    //     // тут мы типа получили данные от api
-    //     receivingDataFromAPI();
-    // }, 2 * 1000);
+    sendData(params_data, getAllCoordinates());
 
 })
 
