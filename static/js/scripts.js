@@ -72,29 +72,18 @@ map.on('load', () => {
                 for (let j = 0; j < data[i].drawing_points.length; j++) {
                     points.push([data[i].drawing_points[j].longitude, data[i].drawing_points[j].latitude])
                 }
-                drawRoad(points, 'road_' + String(i), data[i])
+                drawRoad(points, 'road_' + String(i))
             }
         })
     })
 });
 
-
-
-// Create a popup, but don't add it to the map yet.
-const popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-});
-
-function drawRoad(points, road_id, road_data) {
-    let road_desc = `В час пик на этой дороге ${road_data.auto_per_hour} машин в час, она загружена на ${road_data.load_percent}%`
+function drawRoad(points, road_id) {
     map.addSource(road_id, {
         'type': 'geojson',
         'data': {
             'type': 'Feature',
-            'properties': {
-                'description': road_desc
-            },
+            'properties': {},
             'geometry': {
                 'type': 'LineString',
                 'coordinates': points
@@ -114,30 +103,6 @@ function drawRoad(points, road_id, road_data) {
             'line-color': '#000000',
             'line-width': 6
         }
-    });
-    map.on('mouseenter', road_id, (e) => {
-// Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = 'pointer';
-
-// Copy coordinates array.
-        const coordinates = e.lngLat;
-        const description = e.features[0].properties.description;
-
-// Ensure that if the map is zoomed out such that multiple
-// copies of the feature are visible, the popup appears
-// over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-// Populate the popup and set its coordinates
-// based on the feature found.
-        popup.setLngLat(coordinates).setHTML(description).addTo(map);
-    });
-
-    map.on('mouseleave', road_id, () => {
-        map.getCanvas().style.cursor = '';
-        popup.remove();
     });
 }
 
@@ -200,7 +165,7 @@ const addMarker = (long, lat, data) => {
 
 // let calc_button = document.getElementById('calc-button');
 
-function getDataFromFrom() {
+function getDataFromFrom(){
     let category = document.getElementById('category');
 
     if(data.features.length == 0){
@@ -257,6 +222,3 @@ function updateArea(e) {
 
 
 // points stuff
-
-
-
