@@ -89,19 +89,80 @@ const addMarker = (long, lat, data) => {
     //     window.open('./', '_blank');
     // });
 
-    const popup = new mapboxgl.Popup({offset: 25})
+    const popup2 = new mapboxgl.Popup({offset: 25})
         .setHTML(`
                     <div class='popup_mapbox'>
                         <p>${text1}</p>
                         ${text2}
                     </div>
                 `);
+
+    map.addSource(`clown`, {
+        'type': 'geojson',
+        'data': {
+            'type': 'Feature',
+            'properties': {
+                'description': 'fuck'
+            },
+            'geometry': {
+                'type': 'LineString',
+                'coordinates': [[long, lat], [long - 0.00001, lat - 0.00001]]
+            }
+        }
+    })
+    map.addLayer({
+        'id': `clown`,
+        'type': 'line',
+        'source': `clown`,
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-opacity': 1,
+            'line-color': '#000000',
+            'line-width': 100
+        }
+    })
+    map.addSource(`clown2`, {
+        'type': 'geojson',
+        'data': {
+            'type': 'Feature',
+            'properties': {
+                'description': 'fuck'
+            },
+            'geometry': {
+                'type': 'LineString',
+                'coordinates': [[long, lat], [long - 0.00001, lat - 0.00001]]
+            }
+        }
+    })
+
+    let percent = Math.max(data.morning_thousands_avg_people_per_hour, data.evening_thousands_avg_people_per_hour) / data.max_thousands_people_per_hour;
+    let Red = 0
+    let Green = 255 - Math.round(255 * (percent))
+    let Blue = Math.round((255 * (percent)))
+    map.addLayer({
+        'id': `clown2`,
+        'type': 'line',
+        'source': `clown2`,
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-opacity': 1,
+            'line-color': `rgb(${Red}, ${Green}, ${Blue})`,
+            'line-width': 100 * percent
+        }
+    })
+
     // Add markers to the map.
     // делаем 2 маркера на long lat - один черный на фоне как максимум другой зелено-красный который показывает насколько пизда этому метро
 
     let marker = new mapboxgl.Marker(el)
         .setLngLat([long, lat])
-        .setPopup(popup)
+        .setPopup(popup2)
         .addTo(map);
 }
 
@@ -111,6 +172,7 @@ const popup = new mapboxgl.Popup({
 });
 
 function drawRoad(points, road_id, road_data) {
+    console.log(points)
     let road_desc = `<h2>В час пик на этой дороге:</h2>
                     <h4>С востока на запад:</h4>
                     <p>${road_data.east_to_west_auto_per_hour} машин в час, она загружена на ${road_data.east_to_west_load_percent}%</p>
