@@ -355,5 +355,17 @@ function updateArea(e) {
     // }
 }
 
+document.getElementById('test').addEventListener('click', () => {
+    console.log('???')
+
+    let xhr = new XMLHttpRequest();
+    let url = `${API_URL}calculate`;
+    xhr.open('POST', url);
+    xhr.responseType = 'json';
+
+    let body = JSON.stringify({'text': 'useless huinya'});
+
+    xhr.send(body);
+})
 
 // points stuff

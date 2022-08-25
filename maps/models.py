@@ -42,6 +42,8 @@ class Road(models.Model):
     west_to_east_auto_per_hour = models.IntegerField(default=0)
     west_to_east_load_percent = models.IntegerField(default=0)
 
+    traffic_limit = models.IntegerField(default=300)
+
     def get_first_point(self):
         return self.drawingpoint_set.all().first()
 
