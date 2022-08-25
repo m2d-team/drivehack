@@ -15,7 +15,6 @@ def calculate(request):
     # получает данные о зданиях и из них считает все нужное
     if request.method == 'POST':
         data = json.loads(request.body)
-
         
     return JsonResponse(data)
 
@@ -30,6 +29,8 @@ def calculate_additional_traffic(data):
 
     road_obj = get_road_by_point_id(start_point_id)    
     start_point = get_road_point(road_obj, centroid)
+
+    return road_obj, start_point
 
 
 def calculate_people_growth(data):

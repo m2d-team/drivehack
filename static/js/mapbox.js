@@ -113,9 +113,9 @@ const popup = new mapboxgl.Popup({
 function drawRoad(points, road_id, road_data) {
     let road_desc = `<h2>В час пик на этой дороге:</h2>
                     <h4>С востока на запад:</h4>
-                    <p>${road_data.east_to_west_auto_per_hour} машин в час, она загружена на ${road_data.east_to_west_load_percent}%</p>
+                    <p>${road_data.traffic_limit} машин в час, она загружена на ${Math.round((road_data.base_traffic / road_data.traffic_limit) * 100)}%</p>
                     <h4>С запада на восток:</h4>
-                    <p>${road_data.west_to_east_auto_per_hour} машин в час, она загружена на ${road_data.west_to_east_load_percent}%</p>`
+                    <p>${road_data.traffic_limit} машин в час, она загружена на ${Math.round((road_data.base_traffic / road_data.traffic_limit) * 100)}%</p>`
     map.addSource(road_id, {
         'type': 'geojson',
         'data': {
