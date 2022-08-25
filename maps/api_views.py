@@ -10,6 +10,6 @@ class TransportLocationRetrieveView(ListAPIView):
 
 
 class RoadView(ListAPIView):
-    queryset = Road.objects.all().prefetch_related('drawingpoint_set').prefetch_related('meaningpoint_set')
+    queryset = Road.objects.all().prefetch_related('drawingpoint_set')
     serializer_class = RoadSerializer
 

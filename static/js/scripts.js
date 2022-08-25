@@ -107,6 +107,21 @@ function drawRoad(points, road_id, road_data) {
             }
         }
     })
+
+    function componentToHex(c) {
+        let hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    let percent = Math.max(road_data.east_to_west_load_percent, road_data.west_to_east_load_percent);
+    let Red = Math.round((255 * (percent / 100)))
+    let Green = 255 - Math.round(255 * (percent / 100))
+    let Blue = 0
+
     map.addLayer({
         'id': road_id,
         'type': 'line',
@@ -117,11 +132,11 @@ function drawRoad(points, road_id, road_data) {
         },
         'paint': {
             'line-opacity': 0.7,
-            'line-color': '#000000',
+            'line-color': percent === 0 ? `rgb(${Red}, ${Green}, ${Blue})` : '#000000',
             'line-width': 6
         }
     });
-        map.on('mouseenter', road_id, (e) => {
+    map.on('mouseenter', road_id, (e) => {
 // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
 
@@ -229,20 +244,20 @@ forms.forEach(el => {
     el.addEventListener('change', (e) => setFormParam(e));
 });
 
-function setFormParam(e){
+function setFormParam(e) {
     let param_name = e.target.parentElement.id;
     let param_value = e.target.value;
 
     params_data[param_name] = param_value;
-    
+
     checkFilledParams();
 }
 
 // функция для активации кнопки расчёта(если введены все данные)
-function checkFilledParams(){
-    for(const [key, value] of Object.entries(params_data)){
+function checkFilledParams() {
+    for (const [key, value] of Object.entries(params_data)) {
 
-        if(necessary_forms.includes(key) && value === null){
+        if (necessary_forms.includes(key) && value === null) {
             calc_button.classList.add('disabled');
             console.log('Not enough necessary params');
             return;
@@ -252,7 +267,7 @@ function checkFilledParams(){
     const data = draw.getAll();
     console.log(data.features.length);
 
-    if(data.features.length == 0){
+    if (data.features.length == 0) {
         console.log('Zone not specified');
         calc_button.classList.add('disabled');
         return;
@@ -261,7 +276,7 @@ function checkFilledParams(){
     calc_button.classList.remove('disabled');
 }
 
-function getCoords(){
+function getCoords() {
     let constructions = draw.getAll().features;
     let data = [];
 
@@ -269,11 +284,11 @@ function getCoords(){
         let coords = el['geometry']['coordinates'][0];
         data.push(coords);
     })
-    
+
     return data;
 }
 
-function clearFields(){
+function clearFields() {
     forms.forEach((el) => {
         let key = el.id;
         el.children[0].value = '';
@@ -283,8 +298,8 @@ function clearFields(){
     return;
 }
 
-function sendData(data){
-    let xhr = new XMLHttpRequest();  
+function sendData(data) {
+    let xhr = new XMLHttpRequest();
 
     let url = `${API_URL}calculate`;
     xhr.open('POST', url);
@@ -293,13 +308,13 @@ function sendData(data){
     let coordinates = {
         'coordinates': getCoords()
     };
-    
+
     let body = JSON.stringify(Object.assign({}, params_data, coordinates));
-    
+
     clearFields();
 
     xhr.send(body);
-    
+
     const loader = document.getElementById('spinner-loader');
     xhr.onload = () => {
         loader.classList.add('hidden');
@@ -309,15 +324,15 @@ function sendData(data){
 
 calc_button.addEventListener('click', (e) => {
     const loader = document.getElementById('spinner-loader');
-    
+
     console.log('API request sent...');
     // ждём пока обрабатывается запрос
     loader.classList.remove('hidden');
-    
+
     // тут у нас ебейший запрос к api
     sendData(params_data);
 
-    
+
     // setTimeout(() => {
     //     // тут мы типа получили данные от api
     //     receivingDataFromAPI();
