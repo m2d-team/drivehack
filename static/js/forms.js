@@ -67,13 +67,13 @@ function checkFilledParams() {
     }
 
     // кол-во рисунков
-    const data = draw.getAll();
+    // const data = draw.getAll();
 
-    if (area_counter === 0) {
-        console.log('Zone not specified');
-        calc_button.classList.add('disabled');
-        return;
-    }
+    // if (area_counter === 0) {
+    //     console.log('Zone not specified');
+    //     calc_button.classList.add('disabled');
+    //     return;
+    // }
 
     calc_button.classList.remove('disabled');
 }

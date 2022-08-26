@@ -1,18 +1,20 @@
 const API_URL = '/api/v1/';
 
 function sendData(params_data_dict, points) {
-    saveFormData()
-    let options = {
-        method: 'POST',
-        body: JSON.stringify({
-            'params_data': params_data_dict,
-            'points': points
-        })
-    }
-    fetch(API_URL + 'calculate', options).then(()=>{
-        // ахуеть пришел ответ
-        alert('ответ пришел!!')
-    })
+    // saveFormData()
+    // let options = {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         'params_data': params_data_dict,
+    //         'points': points
+    //     })
+    // }
+    // fetch(API_URL + 'calculate', options).then(()=>{
+    //     // ахуеть пришел ответ
+    //     // alert('ответ пришел!!')
+    // })
+    let xhr = new XMLHttpRequest();
+    let url = `${API_URL}calculate`;
     xhr.open('POST', url);
     xhr.responseType = 'json';
 
@@ -22,7 +24,8 @@ function sendData(params_data_dict, points) {
 
     let body = JSON.stringify(Object.assign({}, params_data, coordinates));
 
-    clearFields();
+    // clearFields();
+    console.log(body);
 
     xhr.send(body);
 

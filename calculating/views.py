@@ -15,29 +15,38 @@ def calculate(request):
     # получает данные о зданиях и из них считает все нужное
     if request.method == 'POST':
         data = json.loads(request.body)
+        # print(data['coordinates'])
+        # print(data['0'])
+        road_obj, start_point = calculate_additional_traffic(data)
+
+
+
+        print(road_obj, start_point)
         
     return JsonResponse(data)
 
 
 def calculate_additional_traffic(data):
-    additional_people = calculate_people_growth(data)
+    additional_people = calculate_people_growth(data['0'])
     metro, buses, cars = calculate_transport_split(additional_people)
     cars_growth = calculate_cars_growth(buses, cars)
 
-    centroid = find_centroid(data['coordinates'])
+    centroid = find_centroid(data['coordinates'][0])
     start_point_id = get_nearest_point_id(centroid)
 
     road_obj = get_road_by_point_id(start_point_id)    
     start_point = get_road_point(road_obj, centroid)
 
+    
+
     return road_obj, start_point
 
 
 def calculate_people_growth(data):
-    if data['category-form'] == 'Жилое помещение':
-        return (data['square-form'] // 25) * 0.6
-    if data['category-form'] == 'Офис':
-        return data['square-form'] // 10
+    if data['build-type'] == 'Жилое помещение':
+        return (int(data['build-area']) // 25) * 0.6
+    if data['build-type'] == 'Офис':
+        return int(data['build-area']) // 10
 
 
 def calculate_transport_split(amount):
