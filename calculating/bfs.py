@@ -8,6 +8,7 @@ graph = {
   '5' : [],
   '6' : []
 } #Загрузить своё
+
 check = set()
 for i in range(len(graph)):
     for n in graph[str(i)]:
@@ -15,6 +16,7 @@ for i in range(len(graph)):
             graph[str(i)].remove(n)
         else:
             check.add(n)
+            
 intial_load = [20, 5, 10, 20, 2, 4, 2] #Базовые нагрузки
 additional_load = [0, 0, 0, 0, 0, 0, 0] #Дополнительная нагрузка на каждую дорогу(в конце индекс 0 будет обрезан)
 limit_load = [3, 4, 5, 6, 10] #Сюда поставить лимиты для путей
