@@ -2,6 +2,7 @@ def bfs(node, graph, current_load, initial_load):
     queue=[node]
     visited = []
 
+    
     additional_load = [0 for _ in range(len(initial_load) + 1)]
     additional_load[node] = current_load
     visited.append(node)
@@ -14,20 +15,20 @@ def bfs(node, graph, current_load, initial_load):
             all = 0
 
             for neighbour in graph[s]:
-                all += initial_load[int(neighbour)]
+                all += initial_load[int(neighbour) - 1]
 
             for neighbour in graph[s]:
                 if neighbour not in visited:
                     #print("Сумма:"+str(all))
                     # print(s)
-                    additional_load[int(neighbour)] += round(additional_load[int(s)] * (initial_load[int(neighbour)] / all), 2)
+                    additional_load[int(neighbour)] += round(additional_load[int(s)] * (initial_load[int(neighbour) - 1] / all), 2)
                     visited.append(neighbour)
                     queue.append(neighbour)
 
         else:
             for neighbour in graph[s]:
                 if neighbour not in visited:
-                    # print(neighbour)
+                    print(neighbour)
                     additional_load[int(neighbour)] += additional_load[int(s)]
                     visited.append(neighbour)
                     queue.append(neighbour)

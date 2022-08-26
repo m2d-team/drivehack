@@ -70,7 +70,6 @@ map.on('load', async () => {
 
 function changeRoadDescription(road_id, road_data) {
     ROAD_DESCRIPTION[road_id] = getDescriptionForRoad(road_data)
-
 }
 
 function changeRoadColor(road_id, new_color) {

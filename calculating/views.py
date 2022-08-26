@@ -29,13 +29,12 @@ def calculate(request):
         # print(start_point_id)
         # print(metro_growth, cars_growth)
         # print(graph)
-        print(roads_info)
+        # print(roads_info)
 
         result = bfs_total(graph, cars_growth, roads_info)
         response = make_response(result[1:], roads_info, metro_growth)
 
-        print(roads_info['ids'])
-        print(result[1:])
+        # print(result[1:])
         # print(response)
         # print(start_point_id)
 
