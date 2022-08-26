@@ -3,6 +3,8 @@ Django==4.1
 django-mapbox-location-field==2.0.0
 django-rest-framework==0.1.0
 djangorestframework==3.13.1
+geographiclib==1.52
+geopy==2.2.0
 llvmlite==0.39.0
 numba==0.56.0
 numpy==1.22.4
