@@ -31,3 +31,17 @@ async function getTransportLocationData() {
 async function getRoadData() {
     return await (await fetch(API_URL + 'Road?type=json')).json();
 }
+
+
+document.getElementById('test').addEventListener('click', () => {
+    console.log('???')
+
+    let xhr = new XMLHttpRequest();
+    let url = `${API_URL}calculate`;
+    xhr.open('POST', url);
+    xhr.responseType = 'json';
+
+    let body = JSON.stringify({'text': 'useless huinya'});
+
+    xhr.send(body);
+})
