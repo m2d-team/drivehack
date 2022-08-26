@@ -89,7 +89,9 @@ function changeColorsToResponse(resp) {
         changeRoadColor('road_' + key, `rgb(${red_color}, ${255 - red_color}, 0)`)
         let road_data = resp['roads'][key]
         resp['roads'][key]['id'] = key
+        console.log(ROAD_DESCRIPTION['road_' + key])
         changeRoadDescription('road_' + key, road_data)
+        console.log(ROAD_DESCRIPTION['road_' + key])
         // resp[key]
     })
 }
