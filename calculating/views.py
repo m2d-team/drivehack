@@ -34,6 +34,8 @@ def calculate(request):
         result = bfs_total(graph, cars_growth, roads_info['base_traffic'], roads_info['traffic_limit'])
         response = make_response(result[1:], roads_info, metro_growth)
 
+        print(roads_info['ids'])
+        print(result[1:])
         # print(response)
         # print(start_point_id)
 
@@ -47,8 +49,10 @@ def calculate_additional_traffic(data):
 
     centroid = find_centroid(data['coordinates'][0])
     start_point_id = get_nearest_point_id(centroid)
+    road_obj = get_road_by_point_id(start_point_id)
+    point_id = get_road_point(road_obj, centroid)
 
-    return start_point_id, metro, cars_growth
+    return point_id, metro, cars_growth
 
 
 def calculate_people_growth(data):
@@ -118,8 +122,8 @@ def make_response(additional_traffic, road_data, metro_growth):
 def build_graph(start_id):
     graph = dict()
     base_roads = DrawingPoint.objects.get(id=start_id).road.all()
+    # print(start_id, base_roads)
     graph[0] = [(el.id - 8) for el in base_roads]
-    
     queue = graph[0].copy()
     visited = set()
 

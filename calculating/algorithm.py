@@ -121,10 +121,11 @@ def get_road_point(road_obj, centroid):
     first_point_coords = first_point.longitude, first_point.latitude
     last_point_coords = last_point.longitude, last_point.latitude
 
+
     if get_distance(centroid, first_point_coords) < get_distance(centroid, last_point_coords):
-        return first_point
+        return first_point.id
     else:
-        return last_point
+        return last_point.id
 
 
 def main():

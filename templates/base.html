@@ -44,8 +44,8 @@
                         <button id="build4" class="w-16 g-white shadow rounded" disabled="true">4</button>
                         <button id="build5" class="w-16 g-white shadow rounded" disabled="true">5</button>
                     </div>
+                    <p class="font-semibold text-2xl font-bold mt-10 text-center ">Основные параметры</p>
                     <form id="form" class="" method="post">
-                        <p class="font-semibold text-2xl font-bold mt-10 text-center ">Основные параметры</p>
 
                         <input type="hidden" id="current-build" value="0">
 
@@ -61,14 +61,12 @@
                             <div class="w-50">
 
                             </div>
-                            <div class="text-lg">Площадь здания:</div>
-                            <input class="border-2 rounded-lg" type="text" size="17">
+                            <div id="build-area">
+                                <div class="text-lg">Площадь здания:</div>
+                                <input class="border-2 rounded-lg" type="number" size="17">
+                            </div>
+
                         </div>
-
-                        <div class="w-32" id="build-area">
-
-                        </div>
-
                         <p class="text-2xl mt-10 text-center font-bold ">Дополнительные параметры</p>
 
                         <div class="mt-5" id="d-people">
@@ -98,7 +96,7 @@
                     <div class="mt-5 grid place-items-center">
                         <div id="spinner-loader" class="hidden three-quarters-loader"></div>
                     </div>
-                    <!-- <button id="test">Ебануть алгос</button> -->
+                    <button id="test">Ебануть алгос</button>
                 </div>
             </div>
         </div>

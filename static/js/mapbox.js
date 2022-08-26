@@ -85,11 +85,11 @@ function changeRoadColor(road_id, new_color) {
 let after = null
 
 function changeColorsToResponse(resp) {
-    Object.keys(resp).forEach((key) => {
-        let red_color = 255 * (resp[key].base_traffic + resp[key].additional_traffic) / resp[key].traffic_limit;
+    Object.keys(resp['roads']).forEach((key) => {
+        let red_color = 255 * (resp['roads'][key].base_traffic + resp['roads'][key].additional_traffic) / resp['roads'][key].traffic_limit;
         changeRoadColor('road_' + key, `rgb(${red_color}, ${255 - red_color}, 0)`)
-        let road_data = resp[key]
-        resp[key]['id'] = key
+        let road_data = resp['roads'][key]
+        resp['roads'][key]['id'] = key
         changeRoadDescription('road_' + key, road_data)
         // resp[key]
     })

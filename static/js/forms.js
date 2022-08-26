@@ -39,11 +39,15 @@ function setFormData(param_data) {
 
 function setFormParam(e) {
     let build_id = e.target.parentElement.parentElement.children[0].value;
+    if (build_id === undefined) {
+        build_id = e.target.parentElement.parentElement.parentElement.children[0].value;
+    }
     console.log(build_id)
     let param_name = e.target.parentElement.id;
     let param_value = e.target.value;
-
-    params_data[build_id][param_name] = param_value;
+    console.log(params_data)
+    console.log(build_id)
+    params_data[Number(build_id)][param_name] = param_value;
 
     checkFilledParams();
 }
