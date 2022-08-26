@@ -1,5 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoidmVyeWJpZ3NhZCIsImEiOiJjbDc4MTUzcmEwNWV1NDFveDB2a3l3eGxzIn0.-En_lmcLWHl0K-udYl5gwQ';
 
+let ROAD_DESCRIPTION = {}
+
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
@@ -18,7 +20,7 @@ const draw = new MapboxDraw({
 });
 map.addControl(draw);
 
-
+let before = {};
 map.on('load', async () => {
     console.log('loaded')
 
@@ -53,25 +55,44 @@ map.on('load', async () => {
         for (let j = 0; j < data[i].drawing_points.length; j++) {
             points.push([data[i].drawing_points[j].longitude, data[i].drawing_points[j].latitude])
         }
-        drawRoad(points, 'road_' + String(i), data[i])
-        changeRoadColor('road_' + String(i), 'rgb(0,0,100)')
+
+        drawRoad(points, 'road_' + String(data[i].id), data[i])
+        let percent = Math.round((data[i].base_traffic / data[i].traffic_limit));
+        before[`${data[i].id}`] = {
+            'base_traffic': data[i].base_traffic,
+            'traffic_limit': data[i].traffic_limit,
+            'direction': 0,
+            'additional_traffic': 0
+        }
+        changeRoadColor('road_' + String(data[i].id), `rgb(${Math.round(255 * percent)}, ${255 - Math.round(255 * percent)},100)`)
     }
 });
 
-function changeRoadColor(road_id, new_color) {
-    map.setPaintProperty(road_id, 'line-color', new_color)
+function changeRoadDescription(road_id, road_data) {
+    ROAD_DESCRIPTION[road_id] = getDescriptionForRoad(road_data)
+
 }
 
-function changeColorsToResponse(resp) {
-    // resp - [{road_id: 1, base: 500, additional:200, limit: 1000}, ....]
-    for (let i = 0; i < resp.length; i++) {
-        let road_data = resp[i];
-        let percent = (road_data.base + road_data.additional) / road_data.limit;
-        let Red = Math.round(255 * percent)
-        let Green = 255 - Math.round(255 * percent)
-        let new_color = `rgb(${Red}, ${Green}, 0)`
-        changeRoadColor('road_' + String(road_data.road_id), new_color)
+function changeRoadColor(road_id, new_color) {
+
+    try {
+        map.setPaintProperty(road_id, 'line-color', new_color)
+    } catch (e) {
+        console.log('tried to color and failed :(')
     }
+}
+
+let after = null
+
+function changeColorsToResponse(resp) {
+    Object.keys(resp).forEach((key) => {
+        let red_color = 255 * (resp[key].base_traffic + resp[key].additional_traffic) / resp[key].traffic_limit;
+        changeRoadColor('road_' + key, `rgb(${red_color}, ${255 - red_color}, 0)`)
+        let road_data = resp[key]
+        resp[key]['id'] = key
+        changeRoadDescription('road_' + key, road_data)
+        // resp[key]
+    })
 }
 
 const addMarker = (long, lat, data) => {
@@ -188,19 +209,11 @@ const popup = new mapboxgl.Popup({
 });
 
 function drawRoad(points, road_id, road_data) {
-    let road_desc = `<h2>В час пик на этой дороге:</h2>
-                    ${road_data.id}
-                    <h4>С востока на запад:</h4>
-                    <p>${road_data.traffic_limit} машин в час, она загружена на ${Math.round((road_data.base_traffic / road_data.traffic_limit) * 100)}%</p>
-                    <h4>С запада на восток:</h4>
-                    <p>${road_data.traffic_limit} машин в час, она загружена на ${Math.round((road_data.base_traffic / road_data.traffic_limit) * 100)}%</p>`
+    ROAD_DESCRIPTION[road_id] = getDescriptionForRoad(road_data)
     map.addSource(road_id, {
         'type': 'geojson',
         'data': {
             'type': 'Feature',
-            'properties': {
-                'description': road_desc
-            },
             'geometry': {
                 'type': 'LineString',
                 'coordinates': points
@@ -226,7 +239,7 @@ function drawRoad(points, road_id, road_data) {
         map.getCanvas().style.cursor = 'pointer';
 
         const coordinates = e.lngLat;
-        const description = e.features[0].properties.description;
+        const description = ROAD_DESCRIPTION[road_id];
 
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -281,7 +294,6 @@ for (let i = 0; i < 5; i++) {
         }
 
         // ставим данные из нужной формы
-        console.log(e.target.id)
         setFormData(params_data[Number(e.target.id.split('build')[1]) - 1])
         document.getElementById('current-build').value = Number(e.target.id.split('build')[1]) - 1
         e.target.classList.add('bg-blue-500')

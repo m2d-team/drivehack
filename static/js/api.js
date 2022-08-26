@@ -20,7 +20,7 @@ function sendData(params_data_dict, time_of_day, points) {
         loader.classList.add('hidden');
         console.log(xhr.response);
         // response arrived
-        changeColorsToResponse()
+        changeColorsToResponse(xhr.response)
     }
 }
 
@@ -44,4 +44,12 @@ document.getElementById('test').addEventListener('click', () => {
     let body = JSON.stringify({'text': 'useless huinya'});
 
     xhr.send(body);
+    xhr.onload = () => {
+        console.log(xhr.response)
+        after = xhr.response;
+
+        changeColorsToResponse(xhr.response)
+        unlockBeforeAfterButton()
+    }
+
 })
