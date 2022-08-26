@@ -1,15 +1,4 @@
-
-# graph = {
-#   '0' : ['1','2','3'],
-#   '1' : ['2','4','5','6'],
-#   '2' : [],
-#   '3' : [],
-#   '4' : [],
-#   '5' : [],
-#   '6' : []
-# } #Загрузить своё
-
-def bfs(node, graph, current_load, initial_load, limit_load):
+def bfs(node, graph, current_load, initial_load):
     queue=[node]
     visited = []
 
@@ -30,7 +19,7 @@ def bfs(node, graph, current_load, initial_load, limit_load):
             for neighbour in graph[s]:
                 if neighbour not in visited:
                     #print("Сумма:"+str(all))
-                    print(s)
+                    # print(s)
                     additional_load[int(neighbour)] += round(additional_load[int(s)] * (initial_load[int(neighbour)] / all), 2)
                     visited.append(neighbour)
                     queue.append(neighbour)
@@ -38,14 +27,14 @@ def bfs(node, graph, current_load, initial_load, limit_load):
         else:
             for neighbour in graph[s]:
                 if neighbour not in visited:
-                    print(neighbour)
+                    # print(neighbour)
                     additional_load[int(neighbour)] += additional_load[int(s)]
                     visited.append(neighbour)
                     queue.append(neighbour)
 
     return additional_load
 
-def bfs_total(graph, addition, initial_load, limit_load):
+def bfs_total(graph, addition, roads_info):
     check = set()
     for i in graph.keys():
         for n in graph[i]:
@@ -58,7 +47,7 @@ def bfs_total(graph, addition, initial_load, limit_load):
     # additional_load = additional_load = [0 for _ in range(len(initial_load))] #Дополнительная нагрузка на каждую дорогу(в конце индекс 0 будет обрезан)
     # limit_load = [3, 4, 5, 6, 10] #Сюда поставить лимиты для путей
 
-    return bfs(0, graph, addition, initial_load, limit_load)
+    return bfs(0, graph, addition, roads_info['base_traffic'])
     # visited = [] # List to keep track of visited nodes.
     # queue = []   # Initialize a queue
 

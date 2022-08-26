@@ -33,23 +33,23 @@ async function getRoadData() {
 }
 
 
-document.getElementById('test').addEventListener('click', () => {
-    console.log('???')
+// document.getElementById('test').addEventListener('click', () => {
+//     console.log('???')
 
-    let xhr = new XMLHttpRequest();
-    let url = `${API_URL}calculate`;
-    xhr.open('POST', url);
-    xhr.responseType = 'json';
+//     let xhr = new XMLHttpRequest();
+//     let url = `${API_URL}calculate`;
+//     xhr.open('POST', url);
+//     xhr.responseType = 'json';
 
-    let body = JSON.stringify({'text': 'useless huinya'});
+//     let body = JSON.stringify({'text': 'useless huinya'});
 
-    xhr.send(body);
-    xhr.onload = () => {
-        console.log(xhr.response)
-        after = xhr.response;
+//     xhr.send(body);
+//     xhr.onload = () => {
+//         console.log(xhr.response)
+//         after = xhr.response;
 
-        changeColorsToResponse(xhr.response)
-        unlockBeforeAfterButton()
-    }
+//         changeColorsToResponse(xhr.response)
+//         unlockBeforeAfterButton()
+//     }
 
-})
+// })

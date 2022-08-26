@@ -29,9 +29,9 @@ def calculate(request):
         # print(start_point_id)
         # print(metro_growth, cars_growth)
         # print(graph)
-        # print(roads_info)
+        print(roads_info)
 
-        result = bfs_total(graph, cars_growth, roads_info['base_traffic'], roads_info['traffic_limit'])
+        result = bfs_total(graph, cars_growth, roads_info)
         response = make_response(result[1:], roads_info, metro_growth)
 
         print(roads_info['ids'])
@@ -75,7 +75,9 @@ def get_roads_info():
     data = {
         'ids': [],
         'base_traffic': [],
-        'traffic_limit': []
+        'traffic_limit': [],
+        'first_points': [],
+        'last_points': [],
     }
     roads_data = Road.objects.all()
 
@@ -83,6 +85,8 @@ def get_roads_info():
         data['ids'].append(road.id)
         data['base_traffic'].append(road.base_traffic)
         data['traffic_limit'].append(road.traffic_limit)
+        data['first_points'].append(road.get_first_point().id)
+        data['last_points'].append(road.get_last_point().id)
     return data
  
 
@@ -121,6 +125,7 @@ def make_response(additional_traffic, road_data, metro_growth):
 
 def build_graph(start_id):
     graph = dict()
+    # directions = [-1 for _ in range(len(first_points))]
     base_roads = DrawingPoint.objects.get(id=start_id).road.all()
     # print(start_id, base_roads)
     graph[0] = [(el.id - 8) for el in base_roads]
@@ -139,6 +144,7 @@ def build_graph(start_id):
 
             for road in roads_connected:
                 if road.id not in visited:
+                    # print(node.id, first_points[road.id - 8], last_points[road.id - 8])
                     queue.append(road.id)
 
                 connections.append(road.id - 8)
