@@ -20,7 +20,7 @@ const draw = new MapboxDraw({
 });
 map.addControl(draw);
 
-let before = {};
+let before = {'roads': {}};
 map.on('load', async () => {
     console.log('loaded')
 
@@ -58,7 +58,7 @@ map.on('load', async () => {
 
         drawRoad(points, 'road_' + String(data[i].id), data[i])
         let percent = Math.round((data[i].base_traffic / data[i].traffic_limit));
-        before[`${data[i].id}`] = {
+        before['roads'][`${data[i].id}`] = {
             'base_traffic': data[i].base_traffic,
             'traffic_limit': data[i].traffic_limit,
             'direction': 0,
@@ -302,29 +302,15 @@ for (let i = 0; i < 5; i++) {
 
 
 function addArea(ev) {
-    console.log(popup)
-    map.on('click', ev.features[0].id, (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const description = 'Здание номер ' + String(area_counter);
-
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        popup.setLngLat(coordinates).setHTML(description).addTo(map);
-    })
-    map.on('mouseleave', ev.features[0].id, () => {
-        map.getCanvas().style.cursor = '';
-        popup.remove();
-    });
+    console.log('new area')
 
     // новый рисунок сделался, люблюино работем (добавляем на панельку)
     if (area_counter <= 4) {
         document.getElementById('build' + String(area_counter + 1)).disabled = undefined
     }
     area_counter += 1;
+    checkFilledParams()
+
 }
 
 function deleteArea(e) {

@@ -1,14 +1,10 @@
 document.getElementById('road-version').addEventListener('click', (e)=>{
     console.log('here')
     if (e.target.innerHTML === 'до') {
-        // нужно сделать изменения после
         e.target.innerHTML = 'после'
-        // console.log(before)
         changeColorsToResponse(after)
-
     } else {
         e.target.innerHTML = 'до'
-        // console.log(after)
         changeColorsToResponse(before)
     }
 })
