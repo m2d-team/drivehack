@@ -14,25 +14,40 @@ from calculating.algorithm import find_centroid, get_nearest_point_id, get_road_
 
 from maps.models import Road, DrawingPoint
 
+
+ROADS_AMOUNT = 6
+
+
 @csrf_exempt
 def calculate(request):
     # получает данные о зданиях и из них считает все нужное
     if request.method == 'POST':
         data = json.loads(request.body)
+        amount = len(data['coordinates'])
+        final_traffic = [0 for _ in range(ROADS_AMOUNT)]
+    
         # response = send_dummies()
-        # print(data['coordinates'])
+        # print(data)
         # print(data['0'])
-        start_point_id, metro_growth, cars_growth = calculate_additional_traffic(data)
-        graph = build_graph(start_point_id)
-        roads_info = get_roads_info()
+        for i in range(amount):    
+            if not data[str(i)]['is-on']:
+                continue
 
-        # print(start_point_id)
-        # print(metro_growth, cars_growth)
-        # print(graph)
-        # print(roads_info)
+            # print(data[str(i)])
+            start_point_id, metro_growth, cars_growth = calculate_additional_traffic(data[str(i)], data['coordinates'][i])
+            graph = build_graph(start_point_id)
+            roads_info = get_roads_info()
 
-        result = bfs_total(graph, cars_growth, roads_info)
-        response = make_response(result[1:], roads_info, metro_growth)
+            # print(start_point_id)
+            # print(metro_growth, cars_growth)
+            # print(graph)
+            # print(roads_info)
+
+            new_cars = bfs_total(graph, cars_growth, roads_info)[1:]
+            for i in range(len(new_cars[1:])):
+                final_traffic[i] += new_cars[i]
+
+        response = make_response(final_traffic, roads_info, metro_growth)
 
         # print(result[1:])
         # print(response)
@@ -41,12 +56,12 @@ def calculate(request):
     return JsonResponse(response)
 
 
-def calculate_additional_traffic(data):
-    additional_people = calculate_people_growth(data['0'])
+def calculate_additional_traffic(data, coords):
+    additional_people = calculate_people_growth(data)
     metro, buses, cars = calculate_transport_split(additional_people)
     cars_growth = calculate_cars_growth(buses, cars)
 
-    centroid = find_centroid(data['coordinates'][0])
+    centroid = find_centroid(coords)
     start_point_id = get_nearest_point_id(centroid)
     road_obj = get_road_by_point_id(start_point_id)
     point_id = get_road_point(road_obj, centroid)
