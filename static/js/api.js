@@ -1,6 +1,6 @@
 const API_URL = '/api/v1/';
 
-function sendData(params_data_dict, points) {
+function sendData(params_data_dict, time_of_day, points) {
     // saveFormData()
     // let options = {
     //     method: 'POST',
@@ -22,7 +22,7 @@ function sendData(params_data_dict, points) {
         'coordinates': getCoords()
     };
 
-    let body = JSON.stringify(Object.assign({}, params_data, coordinates));
+    let body = JSON.stringify(Object.assign({}, params_data, coordinates, time_of_day));
 
     // clearFields();
     console.log(body);

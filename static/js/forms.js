@@ -15,6 +15,7 @@ for (let i = 0; i < 5; i++) {
         'build-area': null,
         'd-people': null,
         'd-workers': null,
+        'is-on': null
     })
 }
 
@@ -24,6 +25,7 @@ function saveFormData() {
     params_data[curr_build]['build-area'] = document.getElementById('build-area').children[1].value
     params_data[curr_build]['d-people'] = document.getElementById('d-people').children[1].value
     params_data[curr_build]['d-workers'] = document.getElementById('d-workers').children[1].value
+    params_data[curr_build]['is-on'] = document.getElementById('is-on-checkbox').checked === true
 }
 
 function setFormData(param_data) {
@@ -32,6 +34,7 @@ function setFormData(param_data) {
     document.getElementById('build-area').children[1].value = param_data['build-area']
     document.getElementById('d-people').children[1].value = param_data['d-people']
     document.getElementById('d-workers').children[1].value = param_data['d-workers']
+    document.getElementById('is-on-checkbox').checked = param_data['is-on']
 }
 
 function setFormParam(e) {
@@ -55,6 +58,20 @@ function clearFields() {
     return;
 }
 
+document.getElementById('time-morning').addEventListener('click', (e) => {
+    e.target.parentElement.children[2].classList.remove('bg-blue-500')
+    e.target.parentElement.children[2].disabled = false;
+    e.target.classList.add('bg-blue-500')
+    e.disabled = true;
+})
+document.getElementById('time-evening').addEventListener('click', (e) => {
+    e.target.parentElement.children[1].classList.remove('bg-blue-500')
+    e.target.parentElement.children[1].disabled = false;
+
+    e.target.classList.add('bg-blue-500')
+    e.disabled = true;
+})
+
 // функция для активации кнопки расчёта (если введены все данные)
 function checkFilledParams() {
     for (const [key, value] of Object.entries(params_data)) {
@@ -66,14 +83,11 @@ function checkFilledParams() {
         }
     }
 
-    // кол-во рисунков
-    // const data = draw.getAll();
-
-    // if (area_counter === 0) {
-    //     console.log('Zone not specified');
-    //     calc_button.classList.add('disabled');
-    //     return;
-    // }
+    if (area_counter === 0) {
+        console.log('Zone not specified');
+        calc_button.classList.add('disabled');
+        return;
+    }
 
     calc_button.classList.remove('disabled');
 }
@@ -87,7 +101,9 @@ form.addEventListener('submit', (e) => {
     loader.classList.remove('hidden');
 
     // тут у нас ебейший запрос к api
-    sendData(params_data, getAllCoordinates());
+
+    let is_morning = document.getElementById('time-morning').classList.contains('bg-blue-500') === true
+    sendData(params_data, is_morning, getAllCoordinates());
 
 })
 

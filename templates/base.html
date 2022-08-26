@@ -28,7 +28,11 @@
         <div class="flex mt-10">
             <div class="bg-white shadow-2xl">
                 <div class="m-8 font-mono">
-
+                    <div>
+                        <span class="">Время: </span>
+                        <button class="w-16 bg-blue-500 shadow rounded" id="time-morning" disabled>Утро</button>
+                        <button class="w-16 g-white shadow rounded" id="time-evening">Вечер</button>
+                    </div>
                     <p class="text-3xl text-center">Здание</p>
 
                     <div>
@@ -69,6 +73,10 @@
                         <div class="mt-5" id="d-workers">
                             <p class="text-lg mt-5 ">Рабочие (в процентах):</p>
                             <input class="border-2 rounded-lg" type="text" size="17">
+                        </div>
+                        <div class="mt-5" id="is-on">
+                            <label for="is-on-checkbox">Учитывать здание?</label>
+                            <input id="is-on-checkbox" type="checkbox" name="xd" checked>
                         </div>
 
 
