@@ -16,11 +16,20 @@ function sendData(params_data_dict, time_of_day, points) {
 
     const loader = document.getElementById('spinner-loader');
     xhr.onload = () => {
+        console.log('test')
         // response arrived
         loader.classList.add('hidden');
         unlockBeforeAfterButton()
         after = xhr.response;
         changeColorsToResponse(xhr.response)
+        let keys = Object.keys(popup_dict)
+        setInterval(() => {
+            document.querySelectorAll('#growth').forEach((el) => {
+                el.innerHTML = `Прирост метро: ${after['metro_growth']} человек`
+
+                console.log(el.innerHTML)
+            })
+        }, 1000)
 
     }
 }

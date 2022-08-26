@@ -97,6 +97,8 @@ function changeColorsToResponse(resp) {
     })
 }
 
+let popup_dict = {}
+
 const addMarker = (long, lat, data) => {
     const el = document.createElement('div');
     el.className = 'marker';
@@ -133,6 +135,7 @@ const addMarker = (long, lat, data) => {
                     <div class='popup_mapbox'>
                         <p>${text1}</p>
                         ${text2}
+                        <p id="growth">Прирост метро: 0 человек</p>
                     </div>
                 `);
 
@@ -203,6 +206,7 @@ const addMarker = (long, lat, data) => {
         .setLngLat([long, lat])
         .setPopup(popup2)
         .addTo(map);
+    popup_dict[data.station_name] = marker;
 }
 
 const popup = new mapboxgl.Popup({
