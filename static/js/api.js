@@ -17,7 +17,7 @@ function sendData(params_data_dict, time_of_day, points) {
 
     const loader = document.getElementById('spinner-loader');
     xhr.onload = () => {
-        loader.classList.add('hidden');
+        // loader.classList.add('hidden');
         console.log(xhr.response);
         // response arrived
         changeColorsToResponse(xhr.response)
