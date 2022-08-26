@@ -17,11 +17,9 @@ def calculate(request):
         data = json.loads(request.body)
         # print(data['coordinates'])
         # print(data['0'])
-        road_obj, start_point = calculate_additional_traffic(data)
+        start_point_id = calculate_additional_traffic(data)
 
-
-
-        print(road_obj, start_point)
+        print(start_point_id)
         
     return JsonResponse(data)
 
@@ -34,12 +32,7 @@ def calculate_additional_traffic(data):
     centroid = find_centroid(data['coordinates'][0])
     start_point_id = get_nearest_point_id(centroid)
 
-    road_obj = get_road_by_point_id(start_point_id)    
-    start_point = get_road_point(road_obj, centroid)
-
-    
-
-    return road_obj, start_point
+    return start_point_id
 
 
 def calculate_people_growth(data):

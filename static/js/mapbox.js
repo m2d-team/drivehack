@@ -97,7 +97,7 @@ const addMarker = (long, lat, data) => {
                     </div>
                 `);
 
-    map.addSource(`clown`, {
+    map.addSource(`clown${data.longitude}`, {
         'type': 'geojson',
         'data': {
             'type': 'Feature',
@@ -111,9 +111,9 @@ const addMarker = (long, lat, data) => {
         }
     })
     map.addLayer({
-        'id': `clown`,
+        'id': `clown${data.longitude}`,
         'type': 'line',
-        'source': `clown`,
+        'source': `clown${data.longitude}`,
         'layout': {
             'line-join': 'round',
             'line-cap': 'round'
@@ -124,7 +124,7 @@ const addMarker = (long, lat, data) => {
             'line-width': 100
         }
     })
-    map.addSource(`clown2`, {
+    map.addSource(`clown2${data.longitude}`, {
         'type': 'geojson',
         'data': {
             'type': 'Feature',
@@ -143,9 +143,9 @@ const addMarker = (long, lat, data) => {
     let Green = 255 - Math.round(255 * (percent))
     let Blue = Math.round((255 * (percent)))
     map.addLayer({
-        'id': `clown2`,
+        'id': `clown2${data.longitude}`,
         'type': 'line',
-        'source': `clown2`,
+        'source': `clown2${data.longitude}`,
         'layout': {
             'line-join': 'round',
             'line-cap': 'round'
