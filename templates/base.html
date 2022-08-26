@@ -86,7 +86,7 @@
 
                         <div class="w-full mx-16">
                             <button id="calc-button"
-                                    class="bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100"
+                                    class="disabled bg-opacity-80 mt-10 bg-sky-600 rounded-full hover:bg-opacity-100"
                                     type="submit">
                                 <div class="text-xl my-2 mx-8 text-center font-medium font-bold">Рассчитать</div>
                             </button>
@@ -103,11 +103,11 @@
     </div>
 </div>
 
+<script src="{% static 'js/utils.js' %}"></script>
 <script src="{% static 'js/mapbox.js' %}"></script>
 <script src="{% static 'js/api.js' %}"></script>
 <script src="{% static 'js/forms.js' %}"></script>
 <script src="{% static 'js/road-coloring-stuff.js' %}"></script>
-<script src="{% static 'js/utils.js' %}"></script>
 <script type="module" src="{% static 'js/animations.js' %}"></script>
 </body>
 

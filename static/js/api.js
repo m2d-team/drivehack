@@ -12,15 +12,16 @@ function sendData(params_data_dict, time_of_day, points) {
     };
 
     let body = JSON.stringify(Object.assign({}, params_data, coordinates, time_of_day));
-    console.log(body);
     xhr.send(body);
 
     const loader = document.getElementById('spinner-loader');
     xhr.onload = () => {
-        // loader.classList.add('hidden');
-        console.log(xhr.response);
         // response arrived
+        loader.classList.add('hidden');
+        unlockBeforeAfterButton()
+        after = xhr.response;
         changeColorsToResponse(xhr.response)
+
     }
 }
 
