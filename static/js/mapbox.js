@@ -46,7 +46,6 @@ map.on('load', async () => {
         }
     });
 
-
     // дороги
     data = await getRoadData();
     for (let i = 0; i < data.length; i++) {
@@ -55,8 +54,25 @@ map.on('load', async () => {
             points.push([data[i].drawing_points[j].longitude, data[i].drawing_points[j].latitude])
         }
         drawRoad(points, 'road_' + String(i), data[i])
+        changeRoadColor('road_' + String(i), 'rgb(0,0,100)')
     }
 });
+
+function changeRoadColor(road_id, new_color) {
+    map.setPaintProperty(road_id, 'line-color', new_color)
+}
+
+function changeColorsToResponse(resp) {
+    // resp - [{road_id: 1, base: 500, additional:200, limit: 1000}, ....]
+    for (let i = 0; i < resp.length; i++) {
+        let road_data = resp[i];
+        let percent = (road_data.base + road_data.additional) / road_data.limit;
+        let Red = Math.round(255 * percent)
+        let Green = 255 - Math.round(255 * percent)
+        let new_color = `rgb(${Red}, ${Green}, 0)`
+        changeRoadColor('road_' + String(road_data.road_id), new_color)
+    }
+}
 
 const addMarker = (long, lat, data) => {
     const el = document.createElement('div');
@@ -172,7 +188,6 @@ const popup = new mapboxgl.Popup({
 });
 
 function drawRoad(points, road_id, road_data) {
-    console.log(points)
     let road_desc = `<h2>В час пик на этой дороге:</h2>
                     ${road_data.id}
                     <h4>С востока на запад:</h4>
@@ -193,11 +208,6 @@ function drawRoad(points, road_id, road_data) {
         }
     })
 
-    let percent = Math.max(road_data.east_to_west_load_percent, road_data.west_to_east_load_percent);
-    let Red = Math.round((255 * (percent / 100)))
-    let Green = 255 - Math.round(255 * (percent / 100))
-    let Blue = 0
-
     map.addLayer({
         'id': road_id,
         'type': 'line',
@@ -208,7 +218,7 @@ function drawRoad(points, road_id, road_data) {
         },
         'paint': {
             'line-opacity': 0.7,
-            'line-color': percent === 0 ? '#000000' : `rgb(${Red}, ${Green}, ${Blue})`,
+            'line-color': '#000000',
             'line-width': 6
         }
     });
