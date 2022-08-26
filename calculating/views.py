@@ -1,8 +1,10 @@
+from functools import total_ordering
 import graphlib
 import json
 import time
 import numpy
 import math
+from bfs import bfs_total
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -20,8 +22,8 @@ def calculate(request):
         response = send_dummies()
         # print(data['coordinates'])
         # print(data['0'])
-        # start_point_id = calculate_additional_traffic(data)
-        build_graph(2)
+        start_point_id = calculate_additional_traffic(data)
+        build_graph(start_point_id)
 
 
         # print(start_point_id)
