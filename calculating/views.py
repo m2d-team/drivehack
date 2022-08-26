@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from calculating.algorithm import find_centroid, get_nearest_point_id, get_road_by_point_id, get_road_point, get_distance
 
-from maps.models import Road, DrawingPoint
+from maps.models import Road, DrawingPoint, TransportLocation
 
 
 ROADS_AMOUNT = 6
@@ -58,10 +58,17 @@ def calculate(request):
 
 def calculate_additional_traffic(data, coords):
     additional_people = calculate_people_growth(data)
-    metro, buses, cars = calculate_transport_split(additional_people)
-    cars_growth = calculate_cars_growth(buses, cars)
+    public, cars = calculate_transport_split(additional_people)
+
+    print(public + cars)
+    metro = TransportLocation.objects.get(id=1)
 
     centroid = find_centroid(coords)
+
+    dist = get_distance( (metro.longitude, metro.latitude), centroid )
+    metro, buses = metro_people(dist, public)
+    cars_growth = calculate_cars_growth(buses, cars)
+    
     start_point_id = get_nearest_point_id(centroid)
     road_obj = get_road_by_point_id(start_point_id)
     point_id = get_road_point(road_obj, centroid)
@@ -71,14 +78,14 @@ def calculate_additional_traffic(data, coords):
 
 def calculate_people_growth(data):
     if data['build-type'] == 'Жилое помещение':
-        return (int(data['build-area']) // 25) * 0.6
+        return (math.ceil(int(data['build-area'])) / 25 * 0.6)
     if data['build-type'] == 'Офис':
-        return int(data['build-area']) // 10
+        return math.ceil(int(data['build-area']) / 10)
 
 
 def calculate_transport_split(amount):
-    # метро/общ.транспорт/авто
-    return math.ceil(amount * 0.3), math.ceil(amount * 0.3), math.ceil(amount * 0.4)
+    # общ.транспорт/авто
+    return math.ceil(amount * 0.6), math.ceil(amount * 0.4)
 
 
 def calculate_cars_growth(bus_enjoyers, car_fans):
@@ -134,7 +141,15 @@ def make_response(additional_traffic, road_data, metro_growth):
             'direction': 0,
         }
     return response
-    # for 
+
+
+def metro_people(distance, people):
+    if (distance <= 300):
+        return math.ceil(people * 0.5), math.ceil(people * 0.5) 
+    elif (300 <= distance and distance <= 1500):
+        return math.ceil( people * 0.25), math.ceil(people * 0.75)
+    else:
+        return math.ceil(people * 0.1), math.ceil(people * 0.9)
 
 
 def build_graph(start_id):
